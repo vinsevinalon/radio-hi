@@ -40,6 +40,7 @@
       this.colorButtons = [...root.querySelectorAll('.graffiti-color')];
       this.toggleBtn = root.querySelector('#graffiti-toggle');
       this.ui = root.querySelector('.graffiti-gate__ui');
+      this.isTouch = false;
 
       this.color = '#111111';
       this.brush = 16;
@@ -128,10 +129,24 @@
         this.isDrawing = false;
       };
 
-      this.canvas.addEventListener('pointerdown', start);
+      this.canvas.addEventListener('pointerdown', (ev) => { this.isTouch = ev.pointerType === 'touch'; start(ev); });
       window.addEventListener('pointermove', move);
       window.addEventListener('pointerup', end);
       window.addEventListener('pointercancel', end);
+      // Touch fallback for browsers that don't deliver PointerEvents consistently
+      this.canvas.addEventListener('touchstart', (ev) => {
+        ev.preventDefault();
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        this.isTouch = true;
+        start({ clientX: t.clientX, clientY: t.clientY, pressure: 0.5, timeStamp: ev.timeStamp });
+      }, { passive: false });
+      window.addEventListener('touchmove', (ev) => {
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        move({ clientX: t.clientX, clientY: t.clientY, pressure: 0.5, timeStamp: ev.timeStamp });
+      }, { passive: false });
+      window.addEventListener('touchend', end, { passive: true });
 
       // Prepare image and submit
       this.form.addEventListener('submit', (e) => {
@@ -358,6 +373,19 @@
             this.holdAccum = Math.min(3000, this.holdAccum + stillMs);
             // Add a slight micro-move to build up paint at the point
             this.spray(this.lastPoint.x, this.lastPoint.y, null, 0, this.lastPoint.x + 0.01, this.lastPoint.y + 0.01);
+            // Force visible drips during long press on touch
+            if (this.isTouch && this.holdAccum > 350 && now - this.lastDripAt > 140) {
+              const pEst = this.effectivePressure(null, 0);
+              const speedN = 0;
+              const slowBoost = 1.2;
+              const radius = clamp(this.brush * (0.55 + pEst * 0.9) * slowBoost, 6, 96);
+              // spawn 1-2 forced drips just under the point
+              const rr = radius * (0.18 + Math.random() * 0.24);
+              const ox = this.lastPoint.x;
+              const oy = this.lastPoint.y + radius * 0.6;
+              this.spawnDrip(ox, oy, rr, `rgba(${parseHex(this.color).r},${parseHex(this.color).g},${parseHex(this.color).b},0.92)`);
+              this.lastDripAt = now;
+            }
           }
         }
         this.raf = requestAnimationFrame(loop);
