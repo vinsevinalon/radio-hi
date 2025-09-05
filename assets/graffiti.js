@@ -243,16 +243,7 @@
       const short = window.innerHeight <= 480;
       const compact = isLandscape && short;
       this.ui.classList.toggle('landscape-compact', compact);
-      if (compact) {
-        // Auto-collapse to maximize canvas; keep email visible
-        if (!this.ui.classList.contains('controls-collapsed')) {
-          this.ui.classList.add('controls-collapsed');
-          if (this.toggleBtn) {
-            this.toggleBtn.setAttribute('aria-pressed', 'true');
-            this.toggleBtn.textContent = 'Show Controls';
-          }
-        }
-      }
+      // Do not auto-collapse controls; user decides via toggle
     }
 
     getPoint(e) {

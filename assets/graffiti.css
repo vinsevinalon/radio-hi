@@ -1,7 +1,8 @@
 .graffiti-gate {
-  position: relative;
-  width: 100%;
-  /* Fill viewport to ensure visibility even if parent has no explicit height */
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
   height: 100vh;
   height: 100svh; /* modern mobile safe viewport */
   min-height: 100vh;
@@ -84,8 +85,11 @@
   .graffiti-brand { top: 8px; left: 8px; }
 }
 
-.landscape-compact .graffiti-hideable { display: none !important; }
+.landscape-compact .graffiti-copy { display: none !important; }
 .landscape-compact .graffiti-toggle { bottom: calc(100% + 6px); }
+
+/* Prevent accidental horizontal scrolling gaps */
+body.password { overflow-x: hidden; }
 
 .graffiti-gate__canvas {
   position: absolute;
