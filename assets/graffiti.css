@@ -80,9 +80,17 @@
   .graffiti-gate__ui {
     padding: 8px 10px;
     gap: 8px;
+    flex-wrap: nowrap; /* keep one row */
+    align-items: center;
+    overflow-x: auto; /* allow scroll if space is tight */
   }
   .graffiti-h3, .graffiti-h4 { display: block; }
   .graffiti-gate__group--colors { justify-content: flex-start; }
+  .graffiti-gate__group--colors,
+  .graffiti-size-wrap,
+  .graffiti-gate__group { flex: 0 1 auto; }
+  .graffiti-size { width: 120px; }
+  .graffiti-color { width: 24px; height: 24px; }
   .graffiti-brand { top: 8px; left: 8px; }
 }
 
@@ -91,6 +99,7 @@
   flex: 1 1 auto;
   margin-left: auto;
   text-align: right;
+  white-space: nowrap;
 }
 .landscape-compact .graffiti-toggle { bottom: calc(100% + 6px); }
 
