@@ -80,12 +80,17 @@
     padding: 8px 10px;
     gap: 8px;
   }
-  .graffiti-h3, .graffiti-h4 { display: none; }
-  .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-h3, .graffiti-h4 { display: block; }
+  .graffiti-gate__group--colors { justify-content: flex-start; }
   .graffiti-brand { top: 8px; left: 8px; }
 }
 
-.landscape-compact .graffiti-copy { display: none !important; }
+.landscape-compact .graffiti-copy {
+  display: block !important;
+  flex: 1 1 auto;
+  margin-left: auto;
+  text-align: right;
+}
 .landscape-compact .graffiti-toggle { bottom: calc(100% + 6px); }
 
 /* Prevent accidental horizontal scrolling gaps */
@@ -113,7 +118,7 @@ body.password { overflow-x: hidden; }
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 12px 16px;
   background: #000;
   color: #fff;
@@ -129,6 +134,7 @@ body.password { overflow-x: hidden; }
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .graffiti-gate__group {
@@ -209,8 +215,8 @@ body.password { overflow-x: hidden; }
 /* Keep controls readable on mobile */
 @media (max-width: 720px) {
   .graffiti-gate__ui { gap: 10px; }
-  .graffiti-copy { text-align: center; }
-  .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-copy { text-align: left; }
+  .graffiti-gate__group--colors { justify-content: flex-start; }
   .graffiti-size-wrap { justify-content: center; }
   .graffiti-gate__email {
     flex-direction: column;
@@ -225,8 +231,8 @@ body.password { overflow-x: hidden; }
 }
 
 @media (min-width: 721px) and (max-width: 1024px) {
-  .graffiti-copy { text-align: center; }
-  .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-copy { text-align: left; }
+  .graffiti-gate__group--colors { justify-content: flex-start; }
 }
 
 /* Use Silkscreen font across password experience */
