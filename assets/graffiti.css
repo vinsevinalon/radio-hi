@@ -73,6 +73,20 @@
   .graffiti-gate__ui { bottom: env(safe-area-inset-bottom); }
 }
 
+/* Landscape compact mode for small-height devices */
+@media (orientation: landscape) and (max-height: 480px) {
+  .graffiti-gate__ui {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .graffiti-h3, .graffiti-h4 { display: none; }
+  .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-brand { top: 8px; left: 8px; }
+}
+
+.landscape-compact .graffiti-hideable { display: none !important; }
+.landscape-compact .graffiti-toggle { bottom: calc(100% + 6px); }
+
 .graffiti-gate__canvas {
   position: absolute;
   inset: 0;
@@ -119,6 +133,17 @@
   gap: 8px;
 }
 
+.graffiti-size-wrap { flex: 1 1 100%; }
+.graffiti-label { color: #fff; font-size: 1.2rem; margin-right: 6px; }
+.graffiti-cap-preview {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--paint, #111);
+  border: 2px solid #fff;
+  flex: 0 0 auto;
+}
+
 .graffiti-color {
   width: 28px;
   height: 28px;
@@ -151,26 +176,7 @@
   cursor: not-allowed;
 }
 
-.graffiti-gate__email {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex: 1 1 100%;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.graffiti-gate__email input[type="email"] {
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: none;
-  background: #fff;
-  color: #111;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.graffiti-submit { flex: 0 0 auto; white-space: nowrap; }
+/* email form removed */
 
 /* Toggle show/hide controls */
 .graffiti-toggle {
@@ -201,6 +207,7 @@
   .graffiti-gate__ui { gap: 10px; }
   .graffiti-copy { text-align: center; }
   .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-size-wrap { justify-content: center; }
   .graffiti-gate__email {
     flex-direction: column;
     align-items: stretch;

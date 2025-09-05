@@ -12,8 +12,8 @@ Sends graffiti as a data URL in the contact email body.
 
   <div class="graffiti-gate__ui">
     <div class="graffiti-copy graffiti-hideable">
-      <h3 class="graffiti-h3">Write, submit to enter the shop.</h3>
-      <h4 class="graffiti-h4">No write, No entry.</h4>
+      <h3 class="graffiti-h3">Share your work</h3>
+      <h3 class="graffiti-h3">@radiohighdigital</h3>
     </div>
 
     <div class="graffiti-gate__group graffiti-gate__group--colors graffiti-hideable" aria-label="Choose color">
@@ -24,47 +24,19 @@ Sends graffiti as a data URL in the contact email body.
       {%- endfor -%}
     </div>
 
-    <div class="graffiti-gate__group graffiti-hideable" aria-label="Brush size">
-      <input id="graffiti-size" class="graffiti-size" type="range" min="6" max="48" value="16" step="1" aria-label="Brush size" />
+    <div class="graffiti-gate__group graffiti-size-wrap graffiti-hideable" aria-label="Cap size">
+      <label id="graffiti-size-label" for="graffiti-size" class="graffiti-label">Cap Size: <span id="graffiti-size-display">16</span></label>
+      <input id="graffiti-size" class="graffiti-size" type="range" min="6" max="48" value="16" step="1" aria-labelledby="graffiti-size-label graffiti-size-display" />
+      <span id="graffiti-cap-preview" class="graffiti-cap-preview" aria-hidden="true"></span>
     </div>
 
     <div class="graffiti-gate__group graffiti-hideable">
       <button id="graffiti-undo" type="button" class="graffiti-btn">Undo</button>
       <button id="graffiti-clear" type="button" class="graffiti-btn">Clear</button>
     </div>
-
-    <div class="graffiti-gate__group graffiti-gate__email">
-      {%- form 'contact', id: 'GraffitiContact', class: 'graffiti-form' -%}
-        <input type="hidden" name="contact[subject]" value="Graffiti gate submission" />
-        <textarea id="graffiti-data" name="contact[graffiti_image_data]" class="visually-hidden" aria-hidden="true"></textarea>
-        <input type="hidden" name="contact[body]" value="Graffiti submission from password page. See graffiti_image_data field for data URL." />
-        <input required id="graffiti-email" type="email" name="contact[email]" placeholder="your@email.com" aria-label="Email" />
-        <button id="graffiti-submit" type="submit" class="graffiti-submit">Submit</button>
-
-        {%- if form.errors -%}
-          <div class="form__message" role="status">
-            <span class="svg-wrapper">{{- 'icon-error' | inline_asset_content -}}</span>
-            {{ form.errors | default_errors }}
-          </div>
-        {%- endif -%}
-        {%- assign graffiti_contact_success = form.posted_successfully? -%}
-      {%- endform -%}
-    </div>
     <button type="button" id="graffiti-toggle" class="graffiti-toggle" aria-pressed="false" aria-label="Hide controls">Hide Controls</button>
   </div>
 </section>
-
-{%- if graffiti_contact_success -%}
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.body.classList.add('graffiti-unlocked');
-      var pm = document.querySelector('password-modal');
-      if (pm && typeof pm.open === 'function') {
-        pm.open({ target: pm.querySelector('details') });
-      }
-    });
-  </script>
-{%- endif -%}
 
 {% schema %}
 {

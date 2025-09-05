@@ -67,18 +67,70 @@
 
       this.bindUI();
       this.updateControls();
+      this.adjustCapDefaults();
+      this.updateCapUI();
       this.startLoop();
+    }
+
+    adjustCapDefaults() {
+      // Setup references created after constructor
+      this.sizeDisplay = this.root.querySelector('#graffiti-size-display');
+      this.capPreview = this.root.querySelector('#graffiti-cap-preview');
+      // Smaller maximum and slimmer radius on small iPhone-size touch screens
+      const smallMobile = (window.innerWidth <= 430) && ('ontouchstart' in window);
+      const isiPhone = /iPhone|iPod/i.test(navigator.userAgent || '');
+      this.radiusScale = (smallMobile || isiPhone) ? 0.8 : 1.0;
+      if (smallMobile || isiPhone) {
+        const newMin = 4;
+        const newMax = 24; // slimmer caps for iPhone
+        const oldMax = parseInt(this.sizeInput.max, 10) || 48;
+        this.sizeInput.min = String(newMin);
+        if (newMax < oldMax) this.sizeInput.max = String(newMax);
+        let v = parseInt(this.sizeInput.value, 10);
+        if (v > newMax) v = newMax;
+        if (v < newMin) v = newMin;
+        this.sizeInput.value = String(v);
+        this.brush = v;
+      } else {
+        this.radiusScale = 1.0;
+      }
+      // Ensure the preview uses current color
+      this.root.style.setProperty('--paint', this.color);
+    }
+
+    updateCapUI() {
+      if (this.sizeDisplay) this.sizeDisplay.textContent = String(this.brush);
+      if (this.capPreview) {
+        const d = Math.round(6 + (this.brush - 6) * 0.6);
+        this.capPreview.style.width = d + 'px';
+        this.capPreview.style.height = d + 'px';
+        this.root.style.setProperty('--paint', this.color);
+      }
+      if (this.sizeInput) this.sizeInput.setAttribute('aria-valuetext', `Cap size ${this.brush}`);
+    }
+
+    calcRadius(p, speed) {
+      // Slider value is the hard maximum; pressure/speed can only reduce it.
+      const base = this.brush * (this.radiusScale || 1);
+      const speedN = clamp((speed || 0) / 600, 0, 1);
+      const pressureFactor = 0.6 + (p || 0.5) * 0.4; // 0.6..1.0
+      const speedFactor = 0.9 + (1 - speedN) * 0.1; // 0.9..1.0
+      let radius = base * pressureFactor * speedFactor;
+      radius = Math.min(radius, base);
+      return clamp(radius, 2, base);
     }
 
     bindUI() {
       this.sizeInput.addEventListener('input', () => {
         this.brush = parseInt(this.sizeInput.value, 10);
+        this.updateCapUI();
       });
       this.colorButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           this.colorButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
           btn.setAttribute('aria-pressed', 'true');
           this.color = btn.style.getPropertyValue('--c') || btn.dataset.color || '#111111';
+          this.root.style.setProperty('--paint', this.color);
         });
       });
       this.undoBtn.addEventListener('click', () => this.undo());
@@ -148,24 +200,25 @@
       }, { passive: false });
       window.addEventListener('touchend', end, { passive: true });
 
-      // Prepare image and submit
-      this.form.addEventListener('submit', (e) => {
-        // Only allow if there's drawing
-        if (!this.hasDrawn) {
-          e.preventDefault();
-          return;
-        }
-        try {
-          const dataUrl = this.exportImage();
-          this.hiddenField.value = dataUrl;
-        } catch (err) {
-          console.error('Failed to prepare graffiti image', err);
-        }
-      });
+      // No email form submission now; skip if form not present
+      if (this.form) {
+        this.form.addEventListener('submit', (e) => {
+          if (!this.hasDrawn) {
+            e.preventDefault();
+            return;
+          }
+          try {
+            const dataUrl = this.exportImage();
+            if (this.hiddenField) this.hiddenField.value = dataUrl;
+          } catch (err) {
+            console.error('Failed to prepare graffiti image', err);
+          }
+        });
+      }
     }
 
     updateControls() {
-      this.submitBtn.disabled = !this.hasDrawn;
+      if (this.submitBtn) this.submitBtn.disabled = !this.hasDrawn;
       this.undoBtn.disabled = this.history.length === 0;
     }
 
@@ -181,6 +234,25 @@
       this.canvas.width = Math.floor(w * dpr);
       this.canvas.height = Math.floor(h * dpr);
       this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      this.applyLandscapeCompact();
+    }
+
+    applyLandscapeCompact() {
+      if (!this.ui) return;
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const short = window.innerHeight <= 480;
+      const compact = isLandscape && short;
+      this.ui.classList.toggle('landscape-compact', compact);
+      if (compact) {
+        // Auto-collapse to maximize canvas; keep email visible
+        if (!this.ui.classList.contains('controls-collapsed')) {
+          this.ui.classList.add('controls-collapsed');
+          if (this.toggleBtn) {
+            this.toggleBtn.setAttribute('aria-pressed', 'true');
+            this.toggleBtn.textContent = 'Show Controls';
+          }
+        }
+      }
     }
 
     getPoint(e) {
@@ -217,6 +289,15 @@
       if (!prev) return;
       this.ctx.putImageData(prev, 0, 0);
       this.updateControls();
+      // First paint unlock: reveal password modal so user can enter
+      if (!this.unlocked) {
+        this.unlocked = true;
+        try {
+          document.body.classList.add('graffiti-unlocked');
+          const pm = document.querySelector('password-modal');
+          if (pm && typeof pm.open === 'function') pm.open({ target: pm.querySelector('details') });
+        } catch (e) {}
+      }
     }
 
     clear() {
@@ -232,10 +313,8 @@
       // smooth pressure for nicer iPad strokes
       this.pAvg = this.pAvg * 0.7 + pIn * 0.3;
       const p = this.pAvg;
-      // map pressure + inverse speed to radius
-      const speedN = clamp(speed / 600, 0, 1); // 0..1 around ~600px/s
-      const slowBoost = 1.0 + (1 - speedN) * 0.35; // slower => bigger / wetter
-      const radius = clamp(this.brush * (0.55 + p * 0.9) * slowBoost, 3, 90);
+      // Compute radius that never exceeds the cap (slider) value
+      const radius = this.calcRadius(p, speed);
       const ctx = this.ctx;
       // Determine previous point to form a segment (capsule)
       const x1 = (px == null ? x : px);
@@ -263,6 +342,7 @@
       ctx.restore();
 
       // 2) Speckle halo along the segment edges
+      const speedN = clamp(speed / 600, 0, 1);
       const density = Math.round((radius * 0.9 + segLen * 0.25) * (1 - speedN * 0.4));
       ctx.save();
       ctx.fillStyle = `rgb(${r},${g},${b})`;
@@ -376,9 +456,7 @@
             // Force visible drips during long press on touch
             if (this.isTouch && this.holdAccum > 350 && now - this.lastDripAt > 140) {
               const pEst = this.effectivePressure(null, 0);
-              const speedN = 0;
-              const slowBoost = 1.2;
-              const radius = clamp(this.brush * (0.55 + pEst * 0.9) * slowBoost, 6, 96);
+              const radius = this.calcRadius(pEst, 0);
               // spawn 1-2 forced drips just under the point
               const rr = radius * (0.18 + Math.random() * 0.24);
               const ox = this.lastPoint.x;
