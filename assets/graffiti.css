@@ -92,14 +92,17 @@
   .graffiti-size { width: 120px; }
   .graffiti-color { width: 24px; height: 24px; }
   .graffiti-brand { top: 8px; left: 8px; }
-  /* Keep toggle visible inside the bar in compact landscape */
+  /* Keep toggle always visible at the left edge in the bar */
   .graffiti-toggle {
-    position: relative;
+    position: sticky;
+    left: 0;
     bottom: auto;
     right: auto;
-    order: 3;
-    margin-left: 8px;
+    order: 0;
+    margin-right: 8px;
+    margin-left: 0;
     flex: 0 0 auto;
+    z-index: 12;
   }
 }
 
