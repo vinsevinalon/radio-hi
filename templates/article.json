@@ -15,7 +15,7 @@
         "featured_image": {
           "type": "featured_image",
           "settings": {
-            "image_height": "medium"
+            "image_height": "adapt"
           }
         },
         "title": {
@@ -27,9 +27,7 @@
         },
         "share": {
           "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
+          "settings": {}
         },
         "content": {
           "type": "content",

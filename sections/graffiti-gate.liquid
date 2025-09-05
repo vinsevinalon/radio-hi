@@ -1,0 +1,81 @@
+{%- comment -%}
+Password page gate: graffiti canvas + email capture.
+Unlocks password modal only after successful email submit.
+Sends graffiti as a data URL in the contact email body.
+{%- endcomment -%}
+
+<section class="graffiti-gate color-{{ section.settings.color_scheme }} gradient" data-graffiti-gate>
+  <div class="graffiti-gate__bg concrete-bg" aria-hidden="true">
+    <img class="graffiti-gate__img" src="{{ 'your-texture.jpg' | asset_url }}" alt="" loading="eager" decoding="async" />
+  </div>
+  <canvas id="graffiti-canvas" class="graffiti-gate__canvas" role="img" aria-label="Graffiti drawing area"></canvas>
+
+  <div class="graffiti-gate__ui">
+    <div class="graffiti-gate__group" aria-label="Choose color">
+      {%- assign colors = section.settings.palette | split: ',' -%}
+      {%- for c in colors -%}
+        {%- assign c_trim = c | strip -%}
+        <button type="button" class="graffiti-color" style="--c: {{ c_trim }}" data-color="{{ c_trim }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Color {{ c_trim }}"></button>
+      {%- endfor -%}
+    </div>
+
+    <div class="graffiti-gate__group" aria-label="Brush size">
+      <input id="graffiti-size" class="graffiti-size" type="range" min="6" max="48" value="16" step="1" aria-label="Brush size" />
+    </div>
+
+    <div class="graffiti-gate__group">
+      <button id="graffiti-undo" type="button" class="graffiti-btn">Undo</button>
+      <button id="graffiti-clear" type="button" class="graffiti-btn">Clear</button>
+    </div>
+
+    <div class="graffiti-gate__group graffiti-gate__email">
+      {%- form 'contact', id: 'GraffitiContact', class: 'graffiti-form' -%}
+        <input type="hidden" name="contact[subject]" value="Graffiti gate submission" />
+        <textarea id="graffiti-data" name="contact[graffiti_image_data]" class="visually-hidden" aria-hidden="true"></textarea>
+        <input type="hidden" name="contact[body]" value="Graffiti submission from password page. See graffiti_image_data field for data URL." />
+        <input required id="graffiti-email" type="email" name="contact[email]" placeholder="your@email.com" aria-label="Email" />
+        <button id="graffiti-submit" type="submit" class="graffiti-submit">Spray &amp; Enter</button>
+
+        {%- if form.errors -%}
+          <div class="form__message" role="status">
+            <span class="svg-wrapper">{{- 'icon-error' | inline_asset_content -}}</span>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+        {%- assign graffiti_contact_success = form.posted_successfully? -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{%- if graffiti_contact_success -%}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('graffiti-unlocked');
+      var pm = document.querySelector('password-modal');
+      if (pm && typeof pm.open === 'function') {
+        pm.open({ target: pm.querySelector('details') });
+      }
+    });
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Graffiti Gate",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "palette",
+      "default": "#111111,#ff2d55,#ffcc00,#00d1b2,#2680eb,#ff6b6b,#9b59b6",
+      "label": "Palette (comma-separated colors)"
+    }
+  ]
+}
+{% endschema %}

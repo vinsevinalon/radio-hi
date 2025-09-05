@@ -1,0 +1,160 @@
+.graffiti-gate {
+  position: relative;
+  width: 100%;
+  /* Fill viewport to ensure visibility even if parent has no explicit height */
+  height: 100vh;
+  height: 100svh; /* modern mobile safe viewport */
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.graffiti-brand {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 4;
+  pointer-events: none;
+}
+.graffiti-brand__logo { max-width: 140px; height: auto; display: block; }
+.graffiti-brand__name { font-weight: 600; font-size: 1.6rem; color: rgb(var(--color-foreground)); }
+
+/* Center and enlarge logo on mobile */
+@media (max-width: 749px) {
+  .graffiti-brand {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .graffiti-brand__logo {
+    max-width: clamp(160px, 45vw, 220px);
+  }
+}
+
+/* Concrete-like background using layered noise */
+.graffiti-gate__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: #cfcfcf;
+}
+
+.graffiti-gate__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+}
+
+.graffiti-gate__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* grain + subtle gradients over the wall */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.28'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.35'/></svg>"),
+    radial-gradient(closest-side, rgba(0,0,0,0.08), transparent 70%),
+    radial-gradient(closest-side, rgba(0,0,0,0.05), transparent 70%),
+    radial-gradient(closest-side, rgba(255,255,255,0.22), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.025) 0 2px, transparent 2px 4px);
+  background-size: 256px 256px, 360px 360px, 240px 240px, 180px 180px, 12px 12px;
+  background-position: 0 0, 0 0, 40px 60px, 10px 80px, 0 0;
+  background-repeat: repeat, repeat, repeat, repeat, repeat;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Mobile & tablet safe insets for the controls */
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .graffiti-gate__ui { bottom: env(safe-area-inset-bottom); }
+}
+
+.graffiti-gate__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+.graffiti-gate__ui {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 100%);
+  color: #fff;
+}
+
+.graffiti-gate__group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.graffiti-color {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.7);
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease;
+  background: var(--c, #000);
+}
+.graffiti-color[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff inset; transform: scale(1.05); }
+
+.graffiti-size {
+  width: 160px;
+}
+
+.graffiti-btn,
+.graffiti-submit {
+  -webkit-appearance: none;
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #111;
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.graffiti-btn[disabled], .graffiti-submit[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.graffiti-gate__email {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.graffiti-gate__email input[type="email"] {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* Hide password entry link until unlocked */
+.password-link { display: none !important; }
+.graffiti-unlocked .password-link { display: inline-flex !important; }
+
+/* Keep controls readable on mobile */
+@media (max-width: 720px) {
+  .graffiti-gate__ui { gap: 8px; }
+  .graffiti-gate__email { width: 100%; }
+  .graffiti-gate__email input[type="email"] { flex: 1; min-width: 0; }
+}

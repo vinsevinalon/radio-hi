@@ -9,25 +9,25 @@
  */
 {
   "sections": {
-    "slideshow": {
+    "hero-slideshow": {
       "type": "slideshow",
       "blocks": {
         "slide-0": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/000015.jpg",
+            "image": "shopify://shop_images/IMG_9527.jpg",
+            "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
             "subheading": "",
             "button_label": "",
-            "link": "shopify://collections/all",
+            "link": "shopify://collections",
             "button_style_secondary": false,
-            "box_align": "middle-left",
             "show_text_box": false,
+            "box_align": "middle-right",
             "text_alignment": "left",
-            "image_overlay_opacity": 10,
-            "color_scheme": "background-2",
-            "text_alignment_mobile": "left"
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
           }
         }
       },
@@ -36,8 +36,8 @@
       ],
       "settings": {
         "layout": "full_bleed",
-        "slide_height": "adapt_image",
-        "slider_visual": "counter",
+        "slide_height": "small",
+        "slider_visual": "dots",
         "auto_rotate": false,
         "change_slides_speed": 5,
         "image_behavior": "none",
@@ -45,37 +45,37 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
-    "featured-collection-0": {
+    "all-products": {
       "type": "featured-collection",
       "settings": {
-        "title": "New Drop",
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "SALE",
         "heading_size": "h2",
         "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "frontpage",
-        "products_to_show": 8,
+        "show_description": true,
+        "description_style": "subtitle",
         "columns_desktop": 4,
+        "enable_desktop_slider": true,
         "full_width": false,
         "show_view_all": false,
         "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "color_scheme": "background-2",
-        "image_ratio": "portrait",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "enable_quick_add": true,
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 60,
-        "padding_bottom": 60
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 24,
+        "padding_bottom": 24
       }
     }
   },
   "order": [
-    "slideshow",
-    "featured-collection-0"
+    "hero-slideshow",
+    "all-products"
   ]
 }
