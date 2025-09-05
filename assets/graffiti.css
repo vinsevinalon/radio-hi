@@ -81,22 +81,36 @@
   height: 100%;
   display: block;
   touch-action: none;
+  /* Blend paint with the wall beneath for realism */
+  mix-blend-mode: multiply;
 }
 
 .graffiti-gate__ui {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 100%);
+  background: #000;
   color: #fff;
+}
+
+.graffiti-copy { flex: 1 1 100%; text-align: left; }
+.graffiti-h3 { margin: 0; font-size: 1.8rem; line-height: 1.15; font-family: 'Silkscreen', system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important; font-weight: 700; }
+.graffiti-h4 { margin: 6px 0 10px; font-size: 1.3rem; opacity: 0.9; font-family: 'Silkscreen', system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important; font-weight: 400; }
+
+.graffiti-gate__group--colors {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
 .graffiti-gate__group {
@@ -141,12 +155,42 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  flex: 1 1 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .graffiti-gate__email input[type="email"] {
   padding: 8px 10px;
   border-radius: 6px;
   border: none;
+  background: #fff;
+  color: #111;
+  flex: 1 1 auto;
+  min-width: 0;
 }
+
+.graffiti-submit { flex: 0 0 auto; white-space: nowrap; }
+
+/* Toggle show/hide controls */
+.graffiti-toggle {
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 8px); /* sit above the control bar */
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  z-index: 11;
+  font-family: 'Silkscreen', system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+}
+.controls-collapsed .graffiti-hideable { display: none !important; }
+.controls-collapsed #graffiti-toggle { right: 16px; }
+
+/* Ensure heading visibility */
+.graffiti-h3, .graffiti-h4 { color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.2); }
 
 /* Hide password entry link until unlocked */
 .password-link { display: none !important; }
@@ -154,7 +198,38 @@
 
 /* Keep controls readable on mobile */
 @media (max-width: 720px) {
-  .graffiti-gate__ui { gap: 8px; }
-  .graffiti-gate__email { width: 100%; }
-  .graffiti-gate__email input[type="email"] { flex: 1; min-width: 0; }
+  .graffiti-gate__ui { gap: 10px; }
+  .graffiti-copy { text-align: center; }
+  .graffiti-gate__group--colors { justify-content: center; }
+  .graffiti-gate__email {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px; /* spacing between input and button on mobile */
+  }
+  .graffiti-gate__email input[type="email"],
+  .graffiti-submit { width: 100%; }
+  .graffiti-gate__email input[type="email"] { margin: 0 0 8px; }
+  .graffiti-submit { margin: 0 0 2px; }
+  .graffiti-toggle { right: 12px; }
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+  .graffiti-copy { text-align: center; }
+  .graffiti-gate__group--colors { justify-content: center; }
+}
+
+/* Use Silkscreen font across password experience */
+body.password, .graffiti-gate, .password-modal__content, .graffiti-gate__ui {
+  font-family: 'Silkscreen', system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
+}
+/* Form controls don't always inherit fonts; set explicitly */
+.graffiti-gate__ui button,
+.graffiti-gate__ui input,
+.graffiti-gate__ui select,
+.graffiti-gate__ui textarea,
+.password-modal__content button,
+.password-modal__content input,
+.password-modal__content select,
+.password-modal__content textarea {
+  font-family: 'Silkscreen', system-ui, -apple-system, Segoe UI, Roboto, sans-serif !important;
 }

@@ -29,6 +29,7 @@
       this.root = root;
       this.canvas = root.querySelector('#graffiti-canvas');
       this.ctx = this.canvas.getContext('2d', { alpha: true });
+      this.wallImg = root.querySelector('.graffiti-gate__img');
       this.emailInput = root.querySelector('#graffiti-email');
       this.submitBtn = root.querySelector('#graffiti-submit');
       this.undoBtn = root.querySelector('#graffiti-undo');
@@ -37,6 +38,8 @@
       this.hiddenField = root.querySelector('#graffiti-data');
       this.form = root.querySelector('#GraffitiContact');
       this.colorButtons = [...root.querySelectorAll('.graffiti-color')];
+      this.toggleBtn = root.querySelector('#graffiti-toggle');
+      this.ui = root.querySelector('.graffiti-gate__ui');
 
       this.color = '#111111';
       this.brush = 16;
@@ -52,6 +55,9 @@
       this.holdAccum = 0; // ms
       this.drips = [];
       this.running = false;
+      this.lastDripAt = 0;
+      this.dripCooldownUntil = 0;
+      this.maxDrips = 48;
 
       this.resizeObserver = new ResizeObserver(() => this.resize());
       this.resizeObserver.observe(this.root);
@@ -76,6 +82,13 @@
       });
       this.undoBtn.addEventListener('click', () => this.undo());
       this.clearBtn.addEventListener('click', () => this.clear());
+      if (this.toggleBtn) {
+        this.toggleBtn.addEventListener('click', () => {
+          const collapsed = this.ui.classList.toggle('controls-collapsed');
+          this.toggleBtn.setAttribute('aria-pressed', collapsed ? 'true' : 'false');
+          this.toggleBtn.textContent = collapsed ? 'Show Controls' : 'Hide Controls';
+        });
+      }
 
       // Pointer events
       const start = (e) => {
@@ -85,7 +98,8 @@
         this.lastPoint = this.getPoint(e);
         this.lastMoveTime = e.timeStamp || performance.now();
         this.holdAccum = 0;
-        this.spray(this.lastPoint.x, this.lastPoint.y, e, 0);
+        // Initial tiny segment to create a round cap
+        this.spray(this.lastPoint.x, this.lastPoint.y, e, 0, this.lastPoint.x + 0.01, this.lastPoint.y + 0.01);
       };
       const move = (e) => {
         if (!this.isDrawing) return;
@@ -104,7 +118,9 @@
           const t = i / steps;
           const ix = this.lastPoint.x + dx * t;
           const iy = this.lastPoint.y + dy * t;
-          this.spray(ix, iy, e, speed);
+          const px = this.lastPoint.x + dx * (t - 1 / steps);
+          const py = this.lastPoint.y + dy * (t - 1 / steps);
+          this.spray(ix, iy, e, speed, px, py);
         }
         this.lastPoint = p;
       };
@@ -157,6 +173,19 @@
       return { x: e.clientX - rect.left, y: e.clientY - rect.top, p: e.pressure || 0.6 };
     }
 
+    effectivePressure(e, speed) {
+      // Prefer native pressure when available and > 0.
+      let p = (e && typeof e.pressure === 'number' && e.pressure > 0) ? e.pressure : 0;
+      // Fallbacks: some mobile browsers keep pressure at 0 for finger input.
+      if (p === 0) {
+        const speedN = clamp((speed || 0) / 600, 0, 1);
+        // Inverse speed + hold time simulate higher pressure when slow/holding
+        const holdN = clamp(this.holdAccum / 900, 0, 1);
+        p = 0.25 + (1 - speedN) * 0.55 + holdN * 0.2; // 0.25..1.0
+      }
+      return clamp(p, 0.05, 1.0);
+    }
+
     pushHistory() {
       try {
         const snapshot = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -182,9 +211,9 @@
       this.updateControls();
     }
 
-    spray(x, y, e, speed = 0) {
+    spray(x, y, e, speed = 0, px = null, py = null) {
       this.hasDrawn = true;
-      const pIn = (e && (e.pressure || 0.5)) || 0.5;
+      const pIn = this.effectivePressure(e, speed);
       // smooth pressure for nicer iPad strokes
       this.pAvg = this.pAvg * 0.7 + pIn * 0.3;
       const p = this.pAvg;
@@ -193,31 +222,45 @@
       const slowBoost = 1.0 + (1 - speedN) * 0.35; // slower => bigger / wetter
       const radius = clamp(this.brush * (0.55 + p * 0.9) * slowBoost, 3, 90);
       const ctx = this.ctx;
+      // Determine previous point to form a segment (capsule)
+      const x1 = (px == null ? x : px);
+      const y1 = (py == null ? y : py);
+      const x2 = x;
+      const y2 = y;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const segLen = Math.max(0.001, Math.hypot(dx, dy));
+      const nx = -dy / segLen;
+      const ny = dx / segLen;
 
-      // 1) Body: soft, dense center like the reference swatches
-      ctx.save();
+      // 1) Body: thick capsule stroke with round caps
       const { r, g, b } = parseHex(this.color);
-      const grad = ctx.createRadialGradient(x, y, 0, x, y, radius * 0.9);
-      grad.addColorStop(0.0, `rgba(${r},${g},${b},0.45)`);
-      grad.addColorStop(0.45, `rgba(${r},${g},${b},0.32)`);
-      grad.addColorStop(1.0, `rgba(${r},${g},${b},0.0)`);
-      ctx.fillStyle = grad;
+      ctx.save();
+      ctx.globalAlpha = clamp(0.86 + p * 0.14, 0.86, 1);
+      ctx.strokeStyle = `rgb(${r},${g},${b})`;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = radius * 2;
       ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
       ctx.restore();
 
-      // 2) Speckle halo: gritty edge
-      const density = Math.round(20 + radius * 1.6 * (1 - speedN * 0.5));
+      // 2) Speckle halo along the segment edges
+      const density = Math.round((radius * 0.9 + segLen * 0.25) * (1 - speedN * 0.4));
       ctx.save();
       ctx.fillStyle = `rgb(${r},${g},${b})`;
-      ctx.globalAlpha = 0.16;
+      ctx.globalAlpha = 0.18;
       for (let i = 0; i < density; i++) {
-        const ang = Math.random() * Math.PI * 2;
-        const rr = (0.55 + Math.random() * 0.55) * radius; // concentrate near rim
-        const jitter = (Math.random() - 0.5) * (radius * 0.08);
-        const sx = x + Math.cos(ang) * rr + jitter;
-        const sy = y + Math.sin(ang) * rr + jitter;
+        const t = Math.random();
+        const cx = x1 + dx * t;
+        const cy = y1 + dy * t;
+        const side = Math.random() < 0.5 ? -1 : 1;
+        const edge = radius * (0.75 + Math.random() * 0.5);
+        const jitter = (Math.random() - 0.5) * (radius * 0.15);
+        const sx = cx + (nx * edge + (Math.random() - 0.5) * 1.2) * side + jitter;
+        const sy = cy + (ny * edge + (Math.random() - 0.5) * 1.2) * side + jitter;
         const s = Math.random() * (radius * 0.09) + 0.6;
         ctx.beginPath();
         ctx.arc(sx, sy, s, 0, Math.PI * 2);
@@ -225,12 +268,33 @@
       }
       ctx.restore();
 
-      // 3) Drips: spawn when slow or pressing hard
+      // 3) Drips: spawn when slow or pressing hard, with throttle and cooldown
+      const now = performance.now();
       const wetness = p * (1 - speedN) + (this.holdAccum > 220 ? 0.4 : 0);
-      if (Math.random() < clamp(0.02 + wetness * 0.25, 0, 0.35)) {
-        const rr = radius * (0.18 + Math.random() * 0.22);
-        const ox = x + (Math.random() - 0.5) * radius * 0.25;
-        this.spawnDrip(ox, y + rr * 0.6, rr, `rgba(${r},${g},${b},0.9)`);
+      const cutoff = 1300; // ms holding before drips pause
+      if (this.holdAccum > cutoff) {
+        // enter a cooldown to stop creating new drips while filling
+        this.dripCooldownUntil = Math.max(this.dripCooldownUntil, now + 1200);
+      }
+      const canDrip = (now > this.dripCooldownUntil) && (this.drips.length < this.maxDrips);
+      const minInterval = 70 + 180 * (1 - wetness); // faster when wetter
+      if (canDrip && now - this.lastDripAt > minInterval) {
+        const chance = clamp(0.02 + wetness * 0.25, 0, 0.35);
+        if (Math.random() < chance) {
+          // Spawn a cluster of 1-3 drips near the lower edge of the stroke
+          const cluster = 1 + Math.floor(Math.random() * 3);
+          for (let k = 0; k < cluster; k++) {
+            const rr = radius * (0.16 + Math.random() * 0.24);
+            // Bias towards the center of the current segment
+            const tmid = 0.4 + Math.random() * 0.2;
+            const cx = (px ?? x) + (x - (px ?? x)) * tmid;
+            const cy = (py ?? y) + (y - (py ?? y)) * tmid;
+            const ox = cx - ( - (y - (py ?? y)) / Math.max(1, Math.hypot(x - (px ?? x), y - (py ?? y))) ) * (radius * (0.6 + Math.random() * 0.25));
+            const oy = cy + ( (x - (px ?? x)) / Math.max(1, Math.hypot(x - (px ?? x), y - (py ?? y))) ) * (radius * (0.6 + Math.random() * 0.25));
+            this.spawnDrip(ox, oy + rr * 0.3, rr, `rgba(${r},${g},${b},0.92)`);
+          }
+          this.lastDripAt = now;
+        }
       }
 
       this.updateControls();
@@ -287,6 +351,15 @@
         const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
         last = now;
         this.updateDrips(dt);
+        // Long press painting/drips when stationary
+        if (this.isDrawing && this.lastPoint) {
+          const stillMs = now - (this.lastMoveTime || now);
+          if (stillMs > 70) {
+            this.holdAccum = Math.min(3000, this.holdAccum + stillMs);
+            // Add a slight micro-move to build up paint at the point
+            this.spray(this.lastPoint.x, this.lastPoint.y, null, 0, this.lastPoint.x + 0.01, this.lastPoint.y + 0.01);
+          }
+        }
         this.raf = requestAnimationFrame(loop);
       };
       this.raf = requestAnimationFrame(loop);
@@ -304,9 +377,25 @@
       tmp.width = outW;
       tmp.height = outH;
       const tctx = tmp.getContext('2d');
-      // draw using identity transform
+      // 1) draw wall background (object-fit: cover)
+      if (this.wallImg && this.wallImg.complete && this.wallImg.naturalWidth) {
+        const iw = this.wallImg.naturalWidth;
+        const ih = this.wallImg.naturalHeight;
+        const scale = Math.max(outW / iw, outH / ih);
+        const dw = iw * scale;
+        const dh = ih * scale;
+        const dx = (outW - dw) / 2;
+        const dy = (outH - dh) / 2;
+        tctx.drawImage(this.wallImg, dx, dy, dw, dh);
+      } else {
+        tctx.fillStyle = '#d0d0d0';
+        tctx.fillRect(0, 0, outW, outH);
+      }
+      // 2) multiply paint over wall
+      tctx.globalCompositeOperation = 'multiply';
       tctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height, 0, 0, outW, outH);
-      return tmp.toDataURL('image/jpeg', 0.65);
+      tctx.globalCompositeOperation = 'source-over';
+      return tmp.toDataURL('image/jpeg', 0.7);
     }
   }
 
