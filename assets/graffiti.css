@@ -92,6 +92,15 @@
   .graffiti-size { width: 120px; }
   .graffiti-color { width: 24px; height: 24px; }
   .graffiti-brand { top: 8px; left: 8px; }
+  /* Keep toggle visible inside the bar in compact landscape */
+  .graffiti-toggle {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    order: 3;
+    margin-left: 8px;
+    flex: 0 0 auto;
+  }
 }
 
 .landscape-compact .graffiti-copy {
