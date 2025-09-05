@@ -75,16 +75,35 @@
   .graffiti-gate__ui { padding-left: calc(16px + env(safe-area-inset-left)); padding-right: calc(16px + env(safe-area-inset-right)); }
 }
 
-/* Landscape compact mode for small-height devices */
-@media (orientation: landscape) and (max-height: 480px) {
+/* Landscape compact mode for phones: single-row bar, toggle inside */
+@media (orientation: landscape) and (max-height: 520px) {
   .graffiti-gate__ui {
     padding: 8px 10px;
     gap: 8px;
     flex-wrap: nowrap; /* keep one row */
     align-items: center;
-    overflow-x: auto; /* allow scroll if space is tight */
+    overflow-x: auto; /* allow horizontal scroll if tight */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
-  .graffiti-h3, .graffiti-h4 { display: block; }
+  /* Put the toggle INSIDE the bar and first in row */
+  .graffiti-toggle {
+    position: static;
+    order: -1;
+    margin: 0 10px 0 0;
+    flex: 0 0 auto;
+    z-index: 12; /* stay above the canvas */
+  }
+  /* Make titles inline so they sit in the same row */
+  .graffiti-h3,
+  .graffiti-h4 { display: inline; margin: 0 10px 0 0; }
+  .graffiti-copy {
+    display: block !important;
+    flex: 1 1 auto;
+    margin-left: auto;
+    text-align: right;
+    white-space: nowrap;
+  }
   .graffiti-gate__group--colors { justify-content: flex-start; }
   .graffiti-gate__group--colors,
   .graffiti-size-wrap,
@@ -92,28 +111,10 @@
   .graffiti-size { width: 120px; }
   .graffiti-color { width: 24px; height: 24px; }
   .graffiti-brand { top: 8px; left: 8px; }
-  /* Keep toggle always visible at the left edge in the bar */
-  .graffiti-toggle {
-    position: sticky;
-    left: 0;
-    bottom: auto;
-    right: auto;
-    order: 0;
-    margin-right: 8px;
-    margin-left: 0;
-    flex: 0 0 auto;
-    z-index: 12;
-  }
 }
 
-.landscape-compact .graffiti-copy {
-  display: block !important;
-  flex: 1 1 auto;
-  margin-left: auto;
-  text-align: right;
-  white-space: nowrap;
-}
-.landscape-compact .graffiti-toggle { bottom: calc(100% + 6px); }
+/* JS-added compact class remains for any extra tuning; keep neutral */
+.landscape-compact .graffiti-copy { display: block !important; }
 
 /* Prevent accidental horizontal scrolling gaps */
 body.password { overflow-x: hidden; }
