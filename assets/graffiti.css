@@ -1,11 +1,11 @@
 .graffiti-gate {
   position: fixed;
-  inset: 0;
+  inset: 0; /* left:0; right:0; top:0; bottom:0 */
   z-index: 0;
-  width: 100vw;
   height: 100vh;
   height: 100svh; /* modern mobile safe viewport */
   min-height: 100vh;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -72,6 +72,7 @@
 /* Mobile & tablet safe insets for the controls */
 @supports (bottom: env(safe-area-inset-bottom)) {
   .graffiti-gate__ui { bottom: env(safe-area-inset-bottom); }
+  .graffiti-gate__ui { padding-left: calc(16px + env(safe-area-inset-left)); padding-right: calc(16px + env(safe-area-inset-right)); }
 }
 
 /* Landscape compact mode for small-height devices */
@@ -95,6 +96,12 @@
 
 /* Prevent accidental horizontal scrolling gaps */
 body.password { overflow-x: hidden; }
+
+/* iOS Safari background-attachment fixed causes white gutters; override on password */
+body.password.gradient {
+  background-attachment: scroll !important;
+  background-color: #000 !important;
+}
 
 .graffiti-gate__canvas {
   position: absolute;
