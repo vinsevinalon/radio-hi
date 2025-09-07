@@ -4,9 +4,46 @@ Unlocks password modal only after successful email submit.
 Sends graffiti as a data URL in the contact email body.
 {%- endcomment -%}
 
-<section class="graffiti-gate color-{{ section.settings.color_scheme }} gradient" data-graffiti-gate>
+<section class="graffiti-gate color-{{ section.settings.color_scheme }} gradient" data-graffiti-gate data-bg-rotate="{{ section.settings.bg_rotate }}" data-bg-interval="{{ section.settings.bg_interval }}">
   <div class="graffiti-gate__bg concrete-bg" aria-hidden="true">
-    <img class="graffiti-gate__img" src="{{ 'your-texture.jpg' | asset_url }}" alt="" loading="eager" decoding="async" />
+    {%- assign imgs = '' -%}
+    {%- if section.settings.bg_image_1 != blank -%}
+      {%- assign imgs = imgs | append: '1' -%}
+    {%- endif -%}
+    {%- if section.settings.bg_image_2 != blank -%}
+      {%- assign imgs = imgs | append: '2' -%}
+    {%- endif -%}
+    {%- if section.settings.bg_image_3 != blank -%}
+      {%- assign imgs = imgs | append: '3' -%}
+    {%- endif -%}
+    {%- assign imgs_count = imgs | size -%}
+
+    {%- if imgs != '' -%}
+      {%- assign first_active = '' -%}
+      {%- if section.settings.bg_image_1 != blank and first_active == '' -%}{%- assign first_active = '1' -%}{%- endif -%}
+      {%- if section.settings.bg_image_2 != blank and first_active == '' -%}{%- assign first_active = '2' -%}{%- endif -%}
+      {%- if section.settings.bg_image_3 != blank and first_active == '' -%}{%- assign first_active = '3' -%}{%- endif -%}
+
+      {%- if section.settings.bg_image_1 != blank -%}
+        {%- assign cls1 = 'graffiti-gate__img' -%}
+        {%- if first_active == '1' -%}{%- assign cls1 = cls1 | append: ' is-active' -%}{%- endif -%}
+        {{ section.settings.bg_image_1 | image_url: width: 2400 | image_tag: class: cls1, loading: 'eager', decoding: 'async' }}
+      {%- endif -%}
+      {%- if section.settings.bg_image_2 != blank -%}
+        {%- assign cls2 = 'graffiti-gate__img' -%}
+        {%- if first_active == '2' -%}{%- assign cls2 = cls2 | append: ' is-active' -%}{%- endif -%}
+        {{ section.settings.bg_image_2 | image_url: width: 2400 | image_tag: class: cls2, loading: 'lazy', decoding: 'async' }}
+      {%- endif -%}
+      {%- if section.settings.bg_image_3 != blank -%}
+        {%- assign cls3 = 'graffiti-gate__img' -%}
+        {%- if first_active == '3' -%}{%- assign cls3 = cls3 | append: ' is-active' -%}{%- endif -%}
+        {{ section.settings.bg_image_3 | image_url: width: 2400 | image_tag: class: cls3, loading: 'lazy', decoding: 'async' }}
+      {%- endif -%}
+    {%- else -%}
+      <img class="graffiti-gate__img is-active" src="{{ 'your-texture.jpg' | asset_url }}" alt="" loading="eager" decoding="async" />
+      <img class="graffiti-gate__img" src="{{ 'your_texture02.jpg' | asset_url }}" alt="" loading="lazy" decoding="async" />
+      <img class="graffiti-gate__img" src="{{ 'your_texture03.jpg' | asset_url }}" alt="" loading="lazy" decoding="async" />
+    {%- endif -%}
   </div>
   <canvas id="graffiti-canvas" class="graffiti-gate__canvas" role="img" aria-label="Graffiti drawing area"></canvas>
 
@@ -33,6 +70,11 @@ Sends graffiti as a data URL in the contact email body.
     <div class="graffiti-gate__group graffiti-hideable">
       <button id="graffiti-undo" type="button" class="graffiti-btn">Undo</button>
       <button id="graffiti-clear" type="button" class="graffiti-btn">Clear</button>
+      {%- assign bg_count = imgs_count -%}
+      {%- if bg_count == 0 -%}{%- assign bg_count = 3 -%}{%- endif -%}
+      {%- if bg_count > 1 -%}
+      <button id="graffiti-bg-next" type="button" class="graffiti-btn" aria-label="Switch background">Next Background</button>
+      {%- endif -%}
     </div>
     <button type="button" id="graffiti-toggle" class="graffiti-toggle" aria-pressed="false" aria-label="Hide controls">Hide Controls</button>
   </div>
@@ -47,6 +89,36 @@ Sends graffiti as a data URL in the contact email body.
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_1",
+      "label": "Background image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_2",
+      "label": "Background image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_3",
+      "label": "Background image 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "bg_rotate",
+      "label": "Rotate background images",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "bg_interval",
+      "label": "Rotation interval (seconds)",
+      "min": 3,
+      "max": 30,
+      "step": 1,
+      "default": 8
     },
     {
       "type": "text",

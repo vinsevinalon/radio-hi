@@ -19,6 +19,10 @@
 .graffiti-brand__logo { max-width: 140px; height: auto; display: block; }
 .graffiti-brand__name { font-weight: 600; font-size: 1.6rem; color: rgb(var(--color-foreground)); }
 
+/* Force white logo/title when requested */
+.graffiti-brand.graffiti-brand--white .graffiti-brand__logo { filter: brightness(0) invert(1); }
+.graffiti-brand.graffiti-brand--white .graffiti-brand__name { color: #fff; }
+
 /* Center and enlarge logo on mobile */
 @media (max-width: 749px) {
   .graffiti-brand {
@@ -49,7 +53,11 @@
   object-fit: cover;
   object-position: center;
   filter: none;
+  opacity: 0;
+  transition: opacity 600ms ease;
 }
+
+.graffiti-gate__img.is-active { opacity: 1; z-index: 1; }
 
 .graffiti-gate__bg::after {
   content: '';
@@ -133,9 +141,12 @@ body.password.gradient {
   height: 100%;
   display: block;
   touch-action: none;
-  /* Blend paint with the wall beneath for realism */
-  mix-blend-mode: multiply;
+  /* Render paint normally to avoid over-darkening on some backgrounds */
+  mix-blend-mode: normal;
 }
+
+/* Opt-in multiply blend for specific backgrounds */
+.graffiti-gate--multiply .graffiti-gate__canvas { mix-blend-mode: multiply; }
 
 .graffiti-gate__ui {
   position: fixed;

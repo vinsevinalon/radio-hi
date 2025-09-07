@@ -29,7 +29,8 @@
       this.root = root;
       this.canvas = root.querySelector('#graffiti-canvas');
       this.ctx = this.canvas.getContext('2d', { alpha: true });
-      this.wallImg = root.querySelector('.graffiti-gate__img');
+      this.wallImgs = [...root.querySelectorAll('.graffiti-gate__img')];
+      this.brand = document.querySelector('.graffiti-brand');
       this.emailInput = root.querySelector('#graffiti-email');
       this.submitBtn = root.querySelector('#graffiti-submit');
       this.undoBtn = root.querySelector('#graffiti-undo');
@@ -40,6 +41,7 @@
       this.colorButtons = [...root.querySelectorAll('.graffiti-color')];
       this.toggleBtn = root.querySelector('#graffiti-toggle');
       this.ui = root.querySelector('.graffiti-gate__ui');
+      this.bgNextBtn = root.querySelector('#graffiti-bg-next');
       this.isTouch = false;
 
       this.color = '#111111';
@@ -69,6 +71,9 @@
       this.updateControls();
       this.adjustCapDefaults();
       this.updateCapUI();
+      this.initBackgroundRotation();
+      this.updateLogoForBackground();
+      this.updateBlendForBackground();
       this.startLoop();
     }
 
@@ -215,6 +220,73 @@
           }
         });
       }
+    }
+
+    getActiveWallImg() {
+      const active = this.root.querySelector('.graffiti-gate__img.is-active');
+      return active || this.wallImgs[0] || null;
+    }
+
+    initBackgroundRotation() {
+      const rotateAttr = (this.root.dataset.bgRotate || '').toString().toLowerCase();
+      const shouldRotate = rotateAttr === 'true' || rotateAttr === '1' || rotateAttr === 'yes';
+      const intervalSec = parseInt(this.root.dataset.bgInterval || '8', 10);
+      const imgs = this.wallImgs;
+      if (!imgs || imgs.length <= 1) {
+        // hook up button to no-op guard
+        if (this.bgNextBtn) this.bgNextBtn.disabled = true;
+        return;
+      }
+      this.bgImgs = imgs;
+      this.bgIndex = imgs.findIndex(img => img.classList.contains('is-active'));
+      if (this.bgIndex < 0) { this.bgIndex = 0; imgs[0].classList.add('is-active'); }
+
+      this.stepBg = (dir = 1) => {
+        const prev = this.bgImgs[this.bgIndex];
+        this.bgIndex = (this.bgIndex + dir + this.bgImgs.length) % this.bgImgs.length;
+        const next = this.bgImgs[this.bgIndex];
+        if (prev) prev.classList.remove('is-active');
+        if (next) next.classList.add('is-active');
+        this.updateLogoForBackground();
+        this.updateBlendForBackground();
+      };
+
+      if (this.bgNextBtn) {
+        this.bgNextBtn.addEventListener('click', () => {
+          this.stepBg(1);
+          if (this.bgTimer) {
+            clearInterval(this.bgTimer);
+            this.bgTimer = setInterval(() => this.stepBg(1), this.bgIntervalMs || 8000);
+          }
+        });
+      }
+
+      if (!shouldRotate) return;
+      const dur = Math.max(3, isNaN(intervalSec) ? 8 : intervalSec) * 1000;
+      this.bgIntervalMs = dur;
+      this.bgTimer = setInterval(() => this.stepBg(1), dur);
+    }
+
+    updateLogoForBackground() {
+      try {
+        if (!this.brand) return;
+        const img = this.getActiveWallImg();
+        if (!img) return;
+        const src = (img.currentSrc || img.src || '').toLowerCase();
+        const isWhiteBg = src.includes('your_texture03.jpg') || src.includes('your_texture02.jpg');
+        this.brand.classList.toggle('graffiti-brand--white', isWhiteBg);
+      } catch (e) {}
+    }
+
+    updateBlendForBackground() {
+      try {
+        const img = this.getActiveWallImg();
+        if (!img) return;
+        const src = (img.currentSrc || img.src || '').toLowerCase();
+        // Enable multiply only for your_texture01.jpg or legacy default your-texture.jpg
+        const isMultiply = src.includes('your_texture01.jpg') || src.includes('your-texture.jpg') || src.includes('your_texture1.jpg');
+        this.root.classList.toggle('graffiti-gate--multiply', !!isMultiply);
+      } catch (e) {}
     }
 
     updateControls() {
@@ -475,23 +547,24 @@
       tmp.height = outH;
       const tctx = tmp.getContext('2d');
       // 1) draw wall background (object-fit: cover)
-      if (this.wallImg && this.wallImg.complete && this.wallImg.naturalWidth) {
-        const iw = this.wallImg.naturalWidth;
-        const ih = this.wallImg.naturalHeight;
+      const wall = this.getActiveWallImg();
+      if (wall && wall.complete && wall.naturalWidth) {
+        const iw = wall.naturalWidth;
+        const ih = wall.naturalHeight;
         const scale = Math.max(outW / iw, outH / ih);
         const dw = iw * scale;
         const dh = ih * scale;
         const dx = (outW - dw) / 2;
         const dy = (outH - dh) / 2;
-        tctx.drawImage(this.wallImg, dx, dy, dw, dh);
+        tctx.drawImage(wall, dx, dy, dw, dh);
       } else {
         tctx.fillStyle = '#d0d0d0';
         tctx.fillRect(0, 0, outW, outH);
       }
-      // 2) multiply paint over wall
-      tctx.globalCompositeOperation = 'multiply';
+      // 2) draw paint over wall with conditional multiply (only for texture01)
+      const doMultiply = this.root.classList.contains('graffiti-gate--multiply');
+      tctx.globalCompositeOperation = doMultiply ? 'multiply' : 'source-over';
       tctx.drawImage(this.canvas, 0, 0, this.canvas.width, this.canvas.height, 0, 0, outW, outH);
-      tctx.globalCompositeOperation = 'source-over';
       return tmp.toDataURL('image/jpeg', 0.7);
     }
   }
