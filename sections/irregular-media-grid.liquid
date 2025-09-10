@@ -1,0 +1,359 @@
+{%- comment -%}
+  Irregular Media Grid Section
+  - Dynamic, non-uniform grid using CSS Grid + named areas
+  - Blocks allow image or video (autoplay/muted) with optional overlay
+  - Responsive: compact layout on mobile, irregular on larger screens
+  - Scoped styles and JS per section instance
+
+  Structure per AGENTS.md
+  1) Comment header (you are here)
+  2) Variable prep (assign, capture)
+  3) Markup
+  4) Section CSS (scoped)
+  5) Section JS (scoped)
+  6) Schema
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = section.id
+  assign heading = section.settings.heading
+  assign show_heading = section.settings.show_heading
+  assign overlay_default = section.settings.overlay_default
+  assign widths = '360, 540, 720, 960, 1200, 1440, 1680, 1920'
+  capture sizes_attr
+    echo '100vw'
+  endcapture
+-%}
+
+<section class="irregular-media-grid section-{{ section_id }}" aria-label="{{ heading | default: 'Media grid' | escape }}">
+  <div class="irregular-media-grid__inner">
+    {%- if show_heading and heading != blank -%}
+      <header class="irregular-media-grid__header">
+        <h2 class="irregular-media-grid__heading">{{ heading | escape }}</h2>
+      </header>
+    {%- endif -%}
+
+    <div class="irregular-media-grid__grid">
+      {%- if section.blocks.size == 0 -%}
+        <div class="irregular-media-grid__empty">
+          <div class="irregular-media-grid__empty-box"></div>
+          <p>{{ 'No media added yet' | t | default: 'No media added yet' }}</p>
+        </div>
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign size = block.settings.size | default: 'medium'
+            assign media_type = block.settings.media_type | default: 'image'
+            assign fit = block.settings.fit | default: 'cover'
+            assign image = block.settings.image
+            assign video_file = block.settings.video
+            assign alt = block.settings.alt | default: image.alt | default: ''
+            assign link = block.settings.link
+            assign overlay_heading = block.settings.overlay_heading
+            assign overlay_text = block.settings.overlay_text
+            assign overlay_pos = block.settings.overlay_pos | default: 'center'
+            assign overlay_tone_raw = block.settings.overlay_tone
+            if overlay_tone_raw == 'inherit' or overlay_tone_raw == blank
+              assign overlay_tone = overlay_default
+            else
+              assign overlay_tone = overlay_tone_raw
+            endif
+          -%}
+
+          <div class="irregular-media-grid__item irregular-media-grid__item--size-{{ size }}" {{ block.shopify_attributes }}>
+            {%- if link != blank -%}
+              <a href="{{ link }}" class="irregular-media-grid__link" aria-label="{{ alt | escape }}">
+            {%- endif -%}
+
+            <div class="irregular-media-grid__media irregular-media-grid__media--fit-{{ fit }}" data-media-type="{{ media_type }}">
+              {%- if media_type == 'video' and video_file != blank -%}
+                {{ video_file | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, preload: 'metadata', class: 'irregular-media-grid__video', aria_label: alt }}
+              {%- elsif image != blank -%}
+                {{ image | image_url: width: 1920 | image_tag: loading: 'lazy', widths: widths, sizes: sizes_attr, alt: alt, class: 'irregular-media-grid__image' }}
+              {%- else -%}
+                <div class="irregular-media-grid__placeholder" role="img" aria-label="Placeholder"></div>
+              {%- endif -%}
+              {%- if overlay_heading != blank or overlay_text != blank -%}
+                <div class="irregular-media-grid__overlay irregular-media-grid__overlay--{{ overlay_tone }} irregular-media-grid__overlay--pos-{{ overlay_pos }}">
+                  {%- if overlay_heading != blank -%}
+                    <p class="irregular-media-grid__overlay-heading">{{ overlay_heading }}</p>
+                  {%- endif -%}
+                  {%- if overlay_text != blank -%}
+                    <p class="irregular-media-grid__overlay-text">{{ overlay_text }}</p>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-{{ section_id }} { --img-radius: 0; --overlay-bg: color-mix(in oklab, black 60%, transparent); --overlay-bg-light: color-mix(in oklab, white 65%, transparent); overflow-x: clip; }
+
+  .section-{{ section_id }} .irregular-media-grid__inner {
+    inline-size: 100vw;
+    margin-inline: 50vw;
+    transform: translateX(-50%);
+    padding: 0;
+  }
+
+  .section-{{ section_id }} .irregular-media-grid__header { margin-block-end: 16px; }
+  .section-{{ section_id }} .irregular-media-grid__heading {
+    margin: 0;
+    font-size: clamp(1.125rem, 1rem + 1vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  .section-{{ section_id }} .irregular-media-grid__grid {
+    display: grid;
+    gap: 0;
+    grid-auto-flow: dense;
+    /* column count adjusts per breakpoint via --cols */
+    /* Keep desktop composition on mobile: compress only */
+    --cols: 4; /* e.g., 1728px => 432px; 1920px => 480px */
+    grid-template-columns: repeat(var(--cols), 1fr);
+    /* Make base cell square: viewport width divided by column count */
+    grid-auto-rows: calc(100vw / var(--cols));
+  }
+
+  /* Items */
+  .section-{{ section_id }} .irregular-media-grid__item {
+    position: relative;
+    border-radius: var(--img-radius);
+    overflow: clip;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-background, #f6f6f6);
+  }
+  .section-{{ section_id }} .irregular-media-grid__link { display: contents; }
+
+  .section-{{ section_id }} .irregular-media-grid__media {
+    position: absolute;
+    inset: 0;
+  }
+  .section-{{ section_id }} .irregular-media-grid__image,
+  .section-{{ section_id }} .irregular-media-grid__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover; /* default */
+    display: block;
+    transform: scale(1.01);
+  }
+  .section-{{ section_id }} .irregular-media-grid__media--fit-contain .irregular-media-grid__image,
+  .section-{{ section_id }} .irregular-media-grid__media--fit-contain .irregular-media-grid__video {
+    object-fit: contain;
+    transform: none;
+    background: var(--color-background, #f6f6f6);
+  }
+  .section-{{ section_id }} .irregular-media-grid__placeholder {
+    inline-size: 100%;
+    block-size: 100%;
+    background: repeating-linear-gradient(45deg, #eee, #eee 10px, #f8f8f8 10px, #f8f8f8 20px);
+  }
+
+  /* Overlay */
+  .section-{{ section_id }} .irregular-media-grid__overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: grid;
+    gap: 4px;
+    color: white;
+    background: var(--overlay-bg);
+    padding: 8px 10px;
+    z-index: 1;
+  }
+  .section-{{ section_id }} .irregular-media-grid__overlay--light {
+    color: black;
+    background: var(--overlay-bg-light);
+  }
+  .section-{{ section_id }} .irregular-media-grid__overlay--pos-center {
+    inset: 0;
+    place-items: center;
+    background: color-mix(in oklab, var(--overlay-bg) 70%, transparent);
+    text-align: center;
+  }
+  .section-{{ section_id }} .irregular-media-grid__overlay-heading {
+    margin: 0;
+    font-weight: 600;
+  }
+  .section-{{ section_id }} .irregular-media-grid__overlay-text {
+    margin: 0;
+    opacity: .9;
+  }
+
+  /* Empty state */
+  .section-{{ section_id }} .irregular-media-grid__empty {
+    display: grid;
+    place-items: center;
+    min-block-size: 240px;
+    background: #fafafa;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+  }
+  .section-{{ section_id }} .irregular-media-grid__empty-box {
+    inline-size: 80px; block-size: 80px; background: #eee; border-radius: 8px; margin-block-end: 8px;
+  }
+
+  /* Responsive column counts */
+  /* No column changes on smaller screens; grid just shrinks. */
+
+  /* Size mappings: grid spans (no gaps, full-bleed) */
+  .section-{{ section_id }} .irregular-media-grid__item--size-small { grid-column: span 1; grid-row: span 1; }
+  .section-{{ section_id }} .irregular-media-grid__item--size-medium { grid-column: span 2; grid-row: span 2; }
+  .section-{{ section_id }} .irregular-media-grid__item--size-portrait { grid-column: span 1; grid-row: span 2; }
+  .section-{{ section_id }} .irregular-media-grid__item--size-landscape { grid-column: span 2; grid-row: span 1; }
+  .section-{{ section_id }} .irregular-media-grid__item--size-tall { grid-column: span 1; grid-row: span 3; }
+
+  /* Optional simple fade-in on view */
+  .section-{{ section_id }} .irregular-media-grid__item { opacity: 0; translate: 0 6px; transition: opacity .5s ease, translate .5s ease; }
+  .section-{{ section_id }} .irregular-media-grid__item.is-visible { opacity: 1; translate: 0 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-{{ section_id }} .irregular-media-grid__item { transition: none; }
+    .section-{{ section_id }} .irregular-media-grid__video { animation: none; }
+  }
+</style>
+
+<script>
+  (function() {
+    const root = document.querySelector('.section-{{ section_id }}');
+    if (!root || root.dataset.mounted) return;
+    root.dataset.mounted = 'true';
+
+    function mount() {
+      const items = root.querySelectorAll('.irregular-media-grid__item');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '50px' });
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add('is-visible'));
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mount, { once: true });
+    } else {
+      mount();
+    }
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e && e.target && e.target.classList.contains('section-{{ section_id }}')) {
+        mount();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Irregular media grid",
+  "tag": "section",
+  "class": "section irregular-media-grid-section",
+  "settings": [
+    { "type": "checkbox", "id": "show_heading", "label": "Show heading", "default": true },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore the grid" },
+    { "type": "select", "id": "overlay_default", "label": "Default overlay tone", "default": "dark", "options": [
+      {"value": "dark", "label": "Dark"},
+      {"value": "light", "label": "Light"}
+    ]}
+  ],
+  "blocks": [
+    {
+      "type": "media",
+      "name": "Media item",
+      "limit": 24,
+      "settings": [
+        { "type": "select", "id": "size", "label": "Size", "default": "medium", "options": [
+          {"value": "small", "label": "Small"},
+          {"value": "medium", "label": "Medium"},
+          {"value": "portrait", "label": "Portrait"},
+          {"value": "landscape", "label": "Landscape"},
+          {"value": "tall", "label": "Tall"}
+        ]},
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "default": "image",
+          "options": [
+            {"value": "image", "label": "Image / GIF"},
+            {"value": "video", "label": "Video (file)"}
+          ]
+        },
+        {
+          "type": "select",
+          "id": "fit",
+          "label": "Image fit",
+          "info": "How the media scales inside its tile",
+          "default": "cover",
+          "options": [
+            {"value": "cover", "label": "Cover (crop to fill)"},
+            {"value": "contain", "label": "Contain (fit inside)"}
+          ]
+        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Video file" },
+        { "type": "text", "id": "alt", "label": "Alt text", "info": "Describe the media for accessibility" },
+        { "type": "url", "id": "link", "label": "Link (optional)" },
+        { "type": "text", "id": "overlay_heading", "label": "Overlay heading" },
+        { "type": "text", "id": "overlay_text", "label": "Overlay text" },
+        {
+          "type": "select",
+          "id": "overlay_pos",
+          "label": "Overlay position",
+          "default": "bottom",
+          "options": [
+            {"value": "bottom", "label": "Bottom"},
+            {"value": "center", "label": "Center"}
+          ]
+        },
+        {
+          "type": "select",
+          "id": "overlay_tone",
+          "label": "Overlay tone",
+          "default": "inherit",
+          "options": [
+            {"value": "inherit", "label": "Inherit from section"},
+            {"value": "dark", "label": "Dark"},
+            {"value": "light", "label": "Light"}
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Irregular media grid",
+      "blocks": [
+        {"type": "media", "settings": {"size": "medium"}},
+        {"type": "media", "settings": {"size": "landscape"}},
+        {"type": "media", "settings": {"size": "portrait"}},
+        {"type": "media", "settings": {"size": "tall"}},
+        {"type": "media", "settings": {"size": "small"}},
+        {"type": "media", "settings": {"size": "medium"}},
+        {"type": "media", "settings": {"size": "landscape"}},
+        {"type": "media", "settings": {"size": "portrait"}},
+        {"type": "media", "settings": {"size": "small"}},
+        {"type": "media", "settings": {"size": "medium"}},
+        {"type": "media", "settings": {"size": "tall"}},
+        {"type": "media", "settings": {"size": "landscape"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,151 @@
+{%- comment -%}
+  Background Video Section
+  - Single responsibility: render a full-bleed or page-width section with a background video.
+  - Uses Shopify hosted video (recommended) or YouTube/Vimeo iframe fallback.
+  - Scoped styles via .section-{{ section.id }} to avoid collisions.
+{%- endcomment -%}
+
+{%- liquid
+  assign video_id = section.settings.video.id | default: section.settings.video_url.id
+  assign video_alt = section.settings.video.alt | default: section.settings.description
+  assign alt = 'sections.video.load_video' | t: description: video_alt | escape
+  assign poster = section.settings.video.preview_image | default: section.settings.cover_image
+-%}
+
+{%- capture sizes -%}
+  {% if section.settings.full_width -%}
+    100vw
+  {%- else -%}
+    (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px,
+    (min-width: 750px) calc(100vw - 10rem), 100vw
+  {%- endif %}
+{%- endcapture -%}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    position: relative;
+  }
+  .section-{{ section.id }} .bg-video {
+    position: relative;
+    min-height: clamp({{ section.settings.height_mobile }}px, 50vh, {{ section.settings.height_desktop }}px);
+    isolation: isolate;
+  }
+  .section-{{ section.id }} .bg-video__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .section-{{ section.id }} .bg-video__overlay {
+    position: absolute;
+    inset: 0;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | times: 0.01 }};
+    z-index: 0;
+  }
+  .section-{{ section.id }} .bg-video__inner {
+    position: relative;
+    z-index: 1;
+  }
+  {% if section.settings.disable_video_on_mobile %}
+  @media (max-width: 749px) {
+    .section-{{ section.id }} .bg-video__media { display: none; }
+  }
+  {% endif %}
+{%- endstyle -%}
+
+<section class="section-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="bg-video{% unless section.settings.full_width %} page-width{% endunless %}">
+    {%- if section.settings.video == null and section.settings.video_url != null -%}
+      {%- liquid
+        assign loop = ''
+        if section.settings.enable_video_looping
+          assign loop = '&loop=1&playlist=' | append: video_id
+        endif
+      -%}
+      {%- if section.settings.video_url.type == 'youtube' -%}
+        <iframe
+          class="bg-video__media js-youtube"
+          src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1&mute=1&playsinline=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0{{ loop }}"
+          loading="eager"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          frameborder="0"
+          title="{{ section.settings.description | escape }}"
+          aria-hidden="true"
+        ></iframe>
+      {%- else -%}
+        <iframe
+          class="bg-video__media js-vimeo"
+          src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&muted=1&background=1&playsinline=1&dnt=1{{ loop }}"
+          loading="eager"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          frameborder="0"
+          title="{{ section.settings.description | escape }}"
+          aria-hidden="true"
+        ></iframe>
+      {%- endif -%}
+    {%- else -%}
+      {{
+        section.settings.video
+        | video_tag:
+          image_size: '1100x',
+          autoplay: true,
+          loop: section.settings.enable_video_looping,
+          controls: false,
+          muted: true,
+          playsinline: true,
+          preload: 'metadata',
+          class: 'bg-video__media'
+      }}
+    {%- endif -%}
+
+    {%- if section.settings.overlay_opacity > 0 -%}
+      <span class="bg-video__overlay" aria-hidden="true"></span>
+    {%- endif -%}
+
+    {%- if poster and section.settings.disable_video_on_mobile -%}
+      <div class="bg-video__inner">
+        {{ poster | image_url: width: 2000 | image_tag: sizes: sizes, widths: '750, 1100, 1500, 1780, 2000', alt: alt, class: 'small-hide bg-video__poster' }}
+        {{ poster | image_url: width: 1100 | image_tag: sizes: sizes, widths: '375, 750, 1100', alt: alt, class: 'medium-hide large-up-hide bg-video__poster' }}
+      </div>
+    {%- else -%}
+      <div class="bg-video__inner"></div>
+    {%- endif -%}
+  </div>
+  
+</section>
+
+{% schema %}
+{
+  "name": "Background video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    { "type": "range", "id": "height_mobile", "label": "Height (mobile)", "min": 160, "max": 800, "step": 20, "unit": "px", "default": 320 },
+    { "type": "range", "id": "height_desktop", "label": "Height (desktop)", "min": 240, "max": 1000, "step": 20, "unit": "px", "default": 480 },
+
+    { "type": "header", "content": "Video" },
+    { "type": "video", "id": "video", "label": "Video" },
+    { "type": "video_url", "id": "video_url", "label": "YouTube or Vimeo URL", "accept": ["youtube", "vimeo"], "info": "Used if no uploaded video is set." },
+    { "type": "image_picker", "id": "cover_image", "label": "Poster image (optional)" },
+    { "type": "checkbox", "id": "enable_video_looping", "label": "Loop video", "default": true },
+    { "type": "checkbox", "id": "disable_video_on_mobile", "label": "Disable video on mobile", "default": true },
+
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 95, "step": 5, "unit": "%", "default": 30 },
+
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ],
+  "presets": [
+    { "name": "Background video" }
+  ]
+}
+{% endschema %}

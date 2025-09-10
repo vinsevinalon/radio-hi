@@ -72,10 +72,21 @@
         "padding_top": 24,
         "padding_bottom": 24
       }
+    },
+    "spinning-cd": {
+      "type": "spinning-cd",
+      "settings": {
+        "image": null,
+        "alt": "CD",
+        "size": 200,
+        "speed": 0.2,
+        "alignment": "center"
+      }
     }
   },
   "order": [
     "hero-slideshow",
+    "spinning-cd",
     "all-products"
   ]
 }
