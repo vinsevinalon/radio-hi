@@ -9,40 +9,29 @@
  */
 {
   "sections": {
-    "hero-slideshow": {
-      "type": "slideshow",
-      "blocks": {
-        "slide-0": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/IMG_9527.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "shopify://collections",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-right",
-            "text_alignment": "left",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-1"
-          }
-        }
-      },
-      "block_order": [
-        "slide-0"
-      ],
+    "background_video_MRNFDz": {
+      "type": "background-video",
+      "name": "Background video",
       "settings": {
-        "layout": "full_bleed",
-        "slide_height": "small",
-        "slider_visual": "dots",
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "image_behavior": "none",
-        "show_text_below": true,
-        "accessibility_info": "Slideshow about our brand"
+        "full_width": true,
+        "height_mobile": 160,
+        "height_desktop": 240,
+        "video": "shopify://files/videos/video (4).mp4",
+        "enable_video_looping": true,
+        "disable_video_on_mobile": false,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "color_scheme": ""
+      }
+    },
+    "spinning-cd": {
+      "type": "spinning-cd",
+      "settings": {
+        "image": "shopify://shop_images/pngtree-reflective-plastic-laser-disc-png-image_3238529.png",
+        "alt": "CD",
+        "size": 200,
+        "speed": 0.2,
+        "alignment": "center"
       }
     },
     "all-products": {
@@ -72,20 +61,10 @@
         "padding_top": 24,
         "padding_bottom": 24
       }
-    },
-    "spinning-cd": {
-      "type": "spinning-cd",
-      "settings": {
-        "image": null,
-        "alt": "CD",
-        "size": 200,
-        "speed": 0.2,
-        "alignment": "center"
-      }
     }
   },
   "order": [
-    "hero-slideshow",
+    "background_video_MRNFDz",
     "spinning-cd",
     "all-products"
   ]
