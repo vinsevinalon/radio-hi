@@ -221,6 +221,13 @@ body.password.gradient {
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* Make Undo and Clear buttons taller */
+#graffiti-undo,
+#graffiti-clear {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
 .graffiti-btn[disabled], .graffiti-submit[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
@@ -273,6 +280,69 @@ body.password.gradient {
 @media (min-width: 721px) and (max-width: 1024px) {
   .graffiti-copy { text-align: left; }
   .graffiti-gate__group--colors { justify-content: flex-start; }
+}
+
+/* Desktop: keep bottom bar, align contents to the right */
+@media (min-width: 1025px) {
+  .graffiti-gate__ui {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end; /* right-align all controls */
+    padding: 12px 24px;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  /* Headings inline, aligned right, but don't consume whole row */
+  .graffiti-copy {
+    flex: 0 1 auto;
+    text-align: right;
+    margin-left: auto; /* push groups to the right */
+  }
+
+  .graffiti-gate__group--colors,
+  .graffiti-size-wrap,
+  .graffiti-gate__group {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  /* Keep desktop slider at a reasonable width */
+  .graffiti-size { width: 160px; }
+
+  /* Keep toggle first in order near the right edge */
+  .graffiti-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 80px;
+    z-index: 20;
+    margin: 0;
+    pointer-events: auto;
+  }
+
+  /* When collapsed: hide the bar visuals and float the toggle outside */
+  .graffiti-gate__ui.controls-collapsed {
+    background: transparent;
+    padding: 0;
+    gap: 0;
+    pointer-events: none; /* let canvas receive input */
+  }
+  .graffiti-gate__ui.controls-collapsed .graffiti-toggle {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 20;
+    margin: 0;
+    pointer-events: auto; /* keep button clickable */
+  }
 }
 
 /* Use Silkscreen font across password experience */
