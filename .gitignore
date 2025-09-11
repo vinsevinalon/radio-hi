@@ -1,0 +1,42 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+public/build/
+.cache/
+.parcel-cache/
+.vite/
+coverage/
+tmp/
+.temp/
+*.tmp
+
+# Tooling caches
+.eslintcache
+.stylelintcache
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Shopify
+*.zip
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
