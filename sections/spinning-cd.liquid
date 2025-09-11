@@ -33,6 +33,27 @@
   }
   @media screen and (max-width: 989px) {
     #SpinningCD-{{ section.id }} { bottom: 16px; top: auto; }
+    
+    /* Make CD smaller on mobile */
+    #SpinningCD-{{ section.id }} .spinning-cd {
+      width: 120px !important;
+      height: 120px !important;
+    }
+  }
+  
+  /* Additional mobile size adjustments */
+  @media screen and (max-width: 750px) {
+    #SpinningCD-{{ section.id }} .spinning-cd {
+      width: 100px !important;
+      height: 100px !important;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    #SpinningCD-{{ section.id }} .spinning-cd {
+      width: 80px !important;
+      height: 80px !important;
+    }
   }
 </style>
 

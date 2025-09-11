@@ -25,7 +25,7 @@
   endcapture
 -%}
 
-<section class="irregular-media-grid section-{{ section_id }}" aria-label="{{ heading | default: 'Media grid' | escape }}">
+<section class="irregular-media-grid section-{{ section_id }}" id="irregular-media-grid-{{ section_id }}" aria-label="{{ heading | default: 'Media grid' | escape }}">
   <div class="irregular-media-grid__inner">
     {%- if show_heading and heading != blank -%}
       <header class="irregular-media-grid__header">
@@ -96,7 +96,131 @@
 </section>
 
 <style>
-  .section-{{ section_id }} { --img-radius: 0; --overlay-bg: color-mix(in oklab, black 60%, transparent); --overlay-bg-light: color-mix(in oklab, white 65%, transparent); overflow-x: clip; }
+  .section-{{ section_id }} { 
+    --img-radius: 0; 
+    --overlay-bg: color-mix(in oklab, black 60%, transparent); 
+    --overlay-bg-light: color-mix(in oklab, white 65%, transparent); 
+    overflow-x: clip;
+    background: 
+      /* Noise texture layers */
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      /* Base army green color */
+      rgba(75, 83, 32, 0.9);
+    background-size: 
+      4px 4px,
+      6px 6px,
+      3px 3px,
+      5px 5px,
+      7px 7px,
+      8px 8px,
+      100% 100%;
+    background-position:
+      0 0,
+      2px 2px,
+      1px 1px,
+      3px 3px,
+      4px 4px,
+      5px 5px,
+      0 0;
+    transition: background 0.4s ease-in-out;
+  }
+
+  /* Background color variations based on scroll */
+  .section-{{ section_id }}.scroll-bg-1 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(95, 103, 52, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-2 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(85, 93, 42, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-3 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(65, 73, 22, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-4 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(105, 113, 62, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-5 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(55, 63, 12, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-6 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(115, 123, 72, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
+  
+  .section-{{ section_id }}.scroll-bg-7 {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      radial-gradient(circle at 90% 70%, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 10% 30%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      rgba(45, 53, 2, 0.9);
+    background-size: 4px 4px, 6px 6px, 3px 3px, 5px 5px, 7px 7px, 8px 8px, 100% 100%;
+    background-position: 0 0, 2px 2px, 1px 1px, 3px 3px, 4px 4px, 5px 5px, 0 0;
+  }
 
   .section-{{ section_id }} .irregular-media-grid__inner {
     inline-size: 100vw;
@@ -212,12 +336,29 @@
   .section-{{ section_id }} .irregular-media-grid__item--size-landscape { grid-column: span 2; grid-row: span 1; }
   .section-{{ section_id }} .irregular-media-grid__item--size-tall { grid-column: span 1; grid-row: span 3; }
 
+  /* Image loading fade animation */
+  .section-{{ section_id }} .irregular-media-grid__image,
+  .section-{{ section_id }} .irregular-media-grid__video {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  
+  .section-{{ section_id }} .irregular-media-grid__image.loaded,
+  .section-{{ section_id }} .irregular-media-grid__video.loaded {
+    opacity: 1;
+  }
+
   /* Optional simple fade-in on view */
   .section-{{ section_id }} .irregular-media-grid__item { opacity: 0; translate: 0 6px; transition: opacity .5s ease, translate .5s ease; }
   .section-{{ section_id }} .irregular-media-grid__item.is-visible { opacity: 1; translate: 0 0; }
 
   @media (prefers-reduced-motion: reduce) {
     .section-{{ section_id }} .irregular-media-grid__item { transition: none; }
+    .section-{{ section_id }} .irregular-media-grid__image,
+    .section-{{ section_id }} .irregular-media-grid__video { 
+      transition: none; 
+      opacity: 1; /* Show immediately */
+    }
     .section-{{ section_id }} .irregular-media-grid__video { animation: none; }
   }
 </style>
@@ -228,8 +369,42 @@
     if (!root || root.dataset.mounted) return;
     root.dataset.mounted = 'true';
 
+    let currentScrollBg = 0;
+
     function mount() {
       const items = root.querySelectorAll('.irregular-media-grid__item');
+      const images = root.querySelectorAll('.irregular-media-grid__image');
+      const videos = root.querySelectorAll('.irregular-media-grid__video');
+      
+      // Handle image loading animation
+      images.forEach((img) => {
+        if (img.complete) {
+          img.classList.add('loaded');
+        } else {
+          img.addEventListener('load', () => {
+            img.classList.add('loaded');
+          });
+          img.addEventListener('error', () => {
+            img.classList.add('loaded'); // Show even if there's an error
+          });
+        }
+      });
+      
+      // Handle video loading animation
+      videos.forEach((video) => {
+        if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+          video.classList.add('loaded');
+        } else {
+          video.addEventListener('loadeddata', () => {
+            video.classList.add('loaded');
+          });
+          video.addEventListener('canplay', () => {
+            video.classList.add('loaded');
+          });
+        }
+      });
+
+      // Handle intersection observer for items
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
           entries.forEach((e) => {
@@ -245,6 +420,34 @@
       }
     }
 
+    function updateBackgroundColor() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const maxScroll = 1000;
+      const scrollPercent = Math.min(scrollTop / maxScroll, 1);
+      
+      // Calculate which background to use (0-7)
+      const bgIndex = Math.floor(scrollPercent * 7) + 1;
+      const newScrollBg = Math.min(bgIndex, 7);
+      
+      // Only update if the background has changed
+      if (newScrollBg !== currentScrollBg) {
+        // Remove previous background class
+        if (currentScrollBg > 0) {
+          root.classList.remove(`scroll-bg-${currentScrollBg}`);
+        }
+        
+        // Add new background class (skip 0 for default black background)
+        if (newScrollBg > 0 && scrollPercent > 0) {
+          root.classList.add(`scroll-bg-${newScrollBg}`);
+        }
+        
+        currentScrollBg = newScrollBg;
+      }
+    }
+
+    // Set up scroll listener for background color changes
+    window.addEventListener('scroll', updateBackgroundColor, { passive: true });
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', mount, { once: true });
     } else {
@@ -254,6 +457,13 @@
     document.addEventListener('shopify:section:load', function(e) {
       if (e && e.target && e.target.classList.contains('section-{{ section_id }}')) {
         mount();
+      }
+    });
+
+    // Clean up on section unload
+    document.addEventListener('shopify:section:unload', function(e) {
+      if (e.detail && e.detail.sectionId === '{{ section_id }}') {
+        window.removeEventListener('scroll', updateBackgroundColor);
       }
     });
   })();

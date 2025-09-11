@@ -2411,7 +2411,6 @@ input[type='checkbox'] {
   }
 
   .header:not(.header--middle-left, .header--middle-center) .header__inline-menu {
-    margin-top: 1.05rem;
   }
 }
 
@@ -2792,7 +2791,6 @@ details[open] > .header__submenu {
 }
 
 .header__menu-item {
-  padding: 1.2rem;
   text-decoration: none;
   color: rgba(var(--color-foreground), 0.75);
 }
