@@ -16,9 +16,20 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "password_page_FQEdFn": {
+      "type": "password-page",
+      "name": "Password Page",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Share your work",
+        "subheading": "@radiohighdigital",
+        "palette": "#000000,#ffffff,#c0c0c0,#ff0000,#ff69b4,#1e90ff"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "password_page_FQEdFn"
   ]
 }
