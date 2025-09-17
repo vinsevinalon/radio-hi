@@ -19,7 +19,7 @@
         "video": "shopify://files/videos/video (4).mp4",
         "video_url": "",
         "enable_video_looping": true,
-        "disable_video_on_mobile": false,
+        "disable_video_on_mobile": true,
         "overlay_color": "#000000",
         "overlay_opacity": 0,
         "color_scheme": ""
