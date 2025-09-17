@@ -41,7 +41,7 @@
       "settings": {
         "collection": "frontpage",
         "products_to_show": 12,
-        "title": "Featured collection",
+        "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
