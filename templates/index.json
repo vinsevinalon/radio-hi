@@ -40,7 +40,7 @@
       "settings": {
         "collection": "all",
         "products_to_show": 8,
-        "title": "SALE",
+        "title": "",
         "heading_size": "h2",
         "description": "",
         "show_description": true,
