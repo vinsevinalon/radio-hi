@@ -35,32 +35,33 @@
         "alignment": "center"
       }
     },
-    "all-products": {
+    "featured_collection_zkKiNQ": {
       "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "frontpage",
-        "products_to_show": 10,
-        "title": "",
-        "heading_size": "h2",
+        "products_to_show": 12,
+        "title": "Featured collection",
+        "heading_size": "h1",
         "description": "",
-        "show_description": true,
-        "description_style": "subtitle",
+        "show_description": false,
+        "description_style": "body",
         "columns_desktop": 4,
-        "enable_desktop_slider": true,
+        "enable_desktop_slider": false,
         "full_width": false,
-        "show_view_all": false,
+        "show_view_all": true,
         "view_all_style": "solid",
         "color_scheme": "scheme-4",
         "image_ratio": "adapt",
         "image_shape": "default",
-        "show_secondary_image": true,
+        "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
-        "padding_top": 24,
-        "padding_bottom": 24
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "irregular_media_grid_XXgiQk": {
@@ -305,7 +306,7 @@
   "order": [
     "background_video_MRNFDz",
     "spinning-cd",
-    "all-products",
+    "featured_collection_zkKiNQ",
     "irregular_media_grid_XXgiQk"
   ]
 }
