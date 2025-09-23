@@ -312,6 +312,22 @@
             "size": "landscape",
             "media_type": "image",
             "fit": "cover",
+            "image": "shopify://shop_images/550125056_1096378472681918_6451297411753802137_n.jpg",
+            "alt": "",
+            "link": "",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        },
+        "media_9pikYR": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "image": "shopify://shop_images/551986458_1096378479348584_1495169866784872363_n.jpg",
             "alt": "",
             "link": "",
             "overlay_heading": "",
@@ -488,6 +504,7 @@
       },
       "block_order": [
         "media_iz3i7C",
+        "media_9pikYR",
         "media_3DdjNe",
         "media_LFTDYb",
         "media_RnAhPG",
