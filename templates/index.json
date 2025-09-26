@@ -86,7 +86,7 @@
       "settings": {
         "collection": "outer-wear",
         "products_to_show": 4,
-        "title": "",
+        "title": "NEW DROP",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -160,7 +160,7 @@
       "settings": {
         "collection": "collab",
         "products_to_show": 4,
-        "title": "",
+        "title": "PUBLIC LIBRARY",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -234,7 +234,7 @@
       "settings": {
         "collection": "frontpage",
         "products_to_show": 4,
-        "title": "",
+        "title": "GRAPHICS",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -308,7 +308,7 @@
       "settings": {
         "collection": "main-stay",
         "products_to_show": 4,
-        "title": "",
+        "title": "MAIN STAY",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
