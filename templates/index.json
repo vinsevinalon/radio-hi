@@ -73,6 +73,7 @@
         "media_Dxh6qi",
         "media_FUFwRK"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
