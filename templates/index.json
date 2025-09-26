@@ -288,21 +288,6 @@
     "irregular_media_grid_XXgiQk": {
       "type": "irregular-media-grid",
       "blocks": {
-        "media_7rfQ9x": {
-          "type": "media",
-          "settings": {
-            "size": "portrait",
-            "media_type": "image",
-            "fit": "cover",
-            "image": "shopify://shop_images/514333793_1224886488955255_1237459071441098898_n.jpg",
-            "alt": "",
-            "link": "",
-            "overlay_heading": "",
-            "overlay_text": "",
-            "overlay_pos": "bottom",
-            "overlay_tone": "inherit"
-          }
-        },
         "media_4Mx83q": {
           "type": "media",
           "settings": {
@@ -332,28 +317,11 @@
             "overlay_pos": "bottom",
             "overlay_tone": "inherit"
           }
-        },
-        "media_3KdQTA": {
-          "type": "media",
-          "settings": {
-            "size": "portrait",
-            "media_type": "image",
-            "fit": "cover",
-            "image": "shopify://shop_images/9B125C77-E9B2-43DF-A346-5490F3CDC2D0-14047-0000023ACD6FA7F0.jpg",
-            "alt": "",
-            "link": "",
-            "overlay_heading": "",
-            "overlay_text": "",
-            "overlay_pos": "bottom",
-            "overlay_tone": "inherit"
-          }
         }
       },
       "block_order": [
-        "media_7rfQ9x",
         "media_4Mx83q",
-        "media_UjGFBP",
-        "media_3KdQTA"
+        "media_UjGFBP"
       ],
       "name": "Irregular media grid",
       "settings": {
@@ -397,10 +365,10 @@
         "media_RHr8CJ": {
           "type": "media",
           "settings": {
-            "size": "medium",
+            "size": "landscape",
             "media_type": "image",
             "fit": "cover",
-            "image": "shopify://shop_images/505159750_18049557905605353_4244519878625961764_n.jpg",
+            "image": "shopify://shop_images/3b67d497-e51d-4b7f-9cc6-60a699eedfb9_73b0d5ba-28c9-46db-ba25-047b6cffd34a.jpg",
             "alt": "",
             "link": "",
             "overlay_heading": "",
@@ -409,12 +377,13 @@
             "overlay_tone": "inherit"
           }
         },
-        "media_piDbE9": {
+        "media_TKBVGC": {
           "type": "media",
           "settings": {
             "size": "landscape",
             "media_type": "image",
             "fit": "cover",
+            "image": "shopify://shop_images/505159750_18049557905605353_4244519878625961764_n.jpg",
             "alt": "",
             "link": "",
             "overlay_heading": "",
@@ -426,7 +395,7 @@
       },
       "block_order": [
         "media_RHr8CJ",
-        "media_piDbE9"
+        "media_TKBVGC"
       ],
       "name": "Irregular media grid",
       "settings": {
@@ -463,6 +432,51 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "irregular_media_grid_CP8CyM": {
+      "type": "irregular-media-grid",
+      "blocks": {
+        "media_K3atN4": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "image": "shopify://shop_images/DSCF1411.jpg",
+            "alt": "",
+            "link": "",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        },
+        "media_HDnDYX": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "video": "shopify://files/videos/Untitleddesign1-ezgif.com-video-to-gif-converter.mp4",
+            "alt": "",
+            "link": "",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "media_K3atN4",
+        "media_HDnDYX"
+      ],
+      "name": "Irregular media grid",
+      "settings": {
+        "show_heading": false,
+        "heading": "Explore the grid",
+        "overlay_default": "dark"
+      }
     }
   },
   "order": [
@@ -473,6 +487,7 @@
     "irregular_media_grid_XXgiQk",
     "featured_collection_zkKiNQ",
     "irregular_media_grid_Yfw89M",
-    "featured_collection_n38kba"
+    "featured_collection_n38kba",
+    "irregular_media_grid_CP8CyM"
   ]
 }
