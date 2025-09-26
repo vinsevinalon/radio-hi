@@ -40,7 +40,7 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "frontpage",
-        "products_to_show": 2,
+        "products_to_show": 12,
         "title": "",
         "heading_size": "h1",
         "description": "",
