@@ -80,6 +80,51 @@
         "overlay_default": "dark"
       }
     },
+    "irregular_media_grid_YNr6aE": {
+      "type": "irregular-media-grid",
+      "blocks": {
+        "media_HbBpaD": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "video": "shopify://files/videos/Black - Fragmented Video.mp4",
+            "alt": "",
+            "link": "shopify://products/visib-windbreaker-black",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        },
+        "media_HB3RBi": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "video": "shopify://files/videos/Light Gray - Fragmented Video.mp4",
+            "alt": "",
+            "link": "shopify://products/visib-windbreaker-light-gray",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "media_HbBpaD",
+        "media_HB3RBi"
+      ],
+      "name": "Irregular media grid",
+      "settings": {
+        "show_heading": false,
+        "heading": "Explore the grid",
+        "overlay_default": "dark"
+      }
+    },
     "featured_collection_6E9fhR": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -382,6 +427,7 @@
     "spinning-cd",
     "irregular_media_grid_hQtKUQ",
     "featured_collection_6E9fhR",
+    "irregular_media_grid_YNr6aE",
     "irregular_media_grid_TgKXfr",
     "featured_collection_NNnA3q",
     "irregular_media_grid_XXgiQk",
