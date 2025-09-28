@@ -232,7 +232,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "frontpage",
+        "collection": "all-products",
         "products_to_show": 4,
         "title": "GRAPHICS",
         "heading_size": "h1",
