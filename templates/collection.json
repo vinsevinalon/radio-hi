@@ -37,10 +37,21 @@
         "padding_top": 32,
         "padding_bottom": 32
       }
+    },
+    "spinning_cd_gRy8Aw": {
+      "type": "spinning-cd",
+      "name": "Spinning CD",
+      "settings": {
+        "alt": "CD",
+        "size": 200,
+        "speed": 0.2,
+        "alignment": "center"
+      }
     }
   },
   "order": [
     "banner",
-    "product-grid"
+    "product-grid",
+    "spinning_cd_gRy8Aw"
   ]
 }
