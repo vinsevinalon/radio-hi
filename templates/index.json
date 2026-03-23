@@ -47,7 +47,7 @@
             "fit": "cover",
             "video": "shopify://files/videos/Black - Fragmented Video.mp4",
             "alt": "",
-            "link": "shopify://products/visib-windbreaker-black",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -62,7 +62,7 @@
             "fit": "cover",
             "video": "shopify://files/videos/Light Gray - Fragmented Video.mp4",
             "alt": "",
-            "link": "shopify://products/visib-windbreaker-light-gray",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -129,6 +129,7 @@
     },
     "featured_collection_6E9fhR": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "outer-wear",
@@ -167,7 +168,7 @@
             "fit": "cover",
             "image": "shopify://shop_images/550125056_1096378472681918_6451297411753802137_n.jpg",
             "alt": "",
-            "link": "shopify://products/raveism-pre-order",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -182,7 +183,7 @@
             "fit": "cover",
             "image": "shopify://shop_images/551986458_1096378479348584_1495169866784872363_n.jpg",
             "alt": "",
-            "link": "shopify://products/raveism-pre-order",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -203,6 +204,7 @@
     },
     "featured_collection_NNnA3q": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "collab",
@@ -239,9 +241,9 @@
             "size": "landscape",
             "media_type": "image",
             "fit": "cover",
-            "image": "shopify://shop_images/541310762_31177621118549328_645328974748894970_n.jpg",
+            "image": "shopify://shop_images/000014.jpg",
             "alt": "",
-            "link": "shopify://products/mamushi-black",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -277,6 +279,7 @@
     },
     "featured_collection_zkKiNQ": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "all-products",
@@ -330,7 +333,7 @@
             "fit": "cover",
             "image": "shopify://shop_images/505159750_18049557905605353_4244519878625961764_n.jpg",
             "alt": "",
-            "link": "shopify://products/compact-core-black-1",
+            "link": "",
             "overlay_heading": "",
             "overlay_text": "",
             "overlay_pos": "bottom",
@@ -351,6 +354,7 @@
     },
     "featured_collection_n38kba": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "main-stay",
