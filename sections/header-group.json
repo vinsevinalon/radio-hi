@@ -14,15 +14,31 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_A7C8Xa": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        },
+        "announcement_f43k3k": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "NEW DROP",
+            "text": "NOTHING ABOVE 500PHP",
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_A7C8Xa",
+        "announcement_f43k3k",
         "announcement-bar-0"
       ],
       "settings": {
