@@ -74,6 +74,7 @@
         "media_HbBpaD",
         "media_HB3RBi"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -129,6 +130,7 @@
     },
     "featured_collection_6E9fhR": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "outer-wear",
