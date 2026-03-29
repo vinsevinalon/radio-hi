@@ -210,7 +210,7 @@
       "settings": {
         "collection": "all-products",
         "products_to_show": 20,
-        "title": "SALE",
+        "title": "LAST REMAINING STOCKS - SIZE XXL & XXXL ONLY",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
