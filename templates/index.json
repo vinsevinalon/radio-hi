@@ -196,51 +196,7 @@
         "media_iz3i7C",
         "media_9pikYR"
       ],
-      "name": "Irregular media grid",
-      "settings": {
-        "show_heading": false,
-        "heading": "Explore the grid",
-        "overlay_default": "dark"
-      }
-    },
-    "irregular_media_grid_XXgiQk": {
-      "type": "irregular-media-grid",
-      "blocks": {
-        "media_4Mx83q": {
-          "type": "media",
-          "settings": {
-            "size": "landscape",
-            "media_type": "image",
-            "fit": "cover",
-            "image": "shopify://shop_images/000014.jpg",
-            "alt": "",
-            "link": "",
-            "overlay_heading": "",
-            "overlay_text": "",
-            "overlay_pos": "bottom",
-            "overlay_tone": "inherit"
-          }
-        },
-        "media_UjGFBP": {
-          "type": "media",
-          "settings": {
-            "size": "landscape",
-            "media_type": "image",
-            "fit": "cover",
-            "image": "shopify://shop_images/543840757_18058737833605353_3637061339199415975_n.jpg",
-            "alt": "",
-            "link": "",
-            "overlay_heading": "",
-            "overlay_text": "",
-            "overlay_pos": "bottom",
-            "overlay_tone": "inherit"
-          }
-        }
-      },
-      "block_order": [
-        "media_4Mx83q",
-        "media_UjGFBP"
-      ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -253,13 +209,13 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "all-products",
-        "products_to_show": 4,
-        "title": "GRAPHICS",
+        "products_to_show": 20,
+        "title": "SALE",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
@@ -315,6 +271,7 @@
         "media_RHr8CJ",
         "media_TKBVGC"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -324,40 +281,12 @@
     },
     "featured_collection_NNnA3q": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "collab",
         "products_to_show": 4,
         "title": "PUBLIC LIBRARY",
-        "heading_size": "h1",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-4",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "featured_collection_n38kba": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "collection": "main-stay",
-        "products_to_show": 4,
-        "title": "MAIN STAY",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -418,6 +347,83 @@
         "media_HDnDYX",
         "media_K3atN4"
       ],
+      "disabled": true,
+      "name": "Irregular media grid",
+      "settings": {
+        "show_heading": false,
+        "heading": "Explore the grid",
+        "overlay_default": "dark"
+      }
+    },
+    "featured_collection_n38kba": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "main-stay",
+        "products_to_show": 4,
+        "title": "MAIN STAY",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-4",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "irregular_media_grid_XXgiQk": {
+      "type": "irregular-media-grid",
+      "blocks": {
+        "media_4Mx83q": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "image": "shopify://shop_images/000014.jpg",
+            "alt": "",
+            "link": "",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        },
+        "media_UjGFBP": {
+          "type": "media",
+          "settings": {
+            "size": "landscape",
+            "media_type": "image",
+            "fit": "cover",
+            "image": "shopify://shop_images/543840757_18058737833605353_3637061339199415975_n.jpg",
+            "alt": "",
+            "link": "",
+            "overlay_heading": "",
+            "overlay_text": "",
+            "overlay_pos": "bottom",
+            "overlay_tone": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "media_4Mx83q",
+        "media_UjGFBP"
+      ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
