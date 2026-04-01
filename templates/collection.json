@@ -80,9 +80,9 @@
     }
   },
   "order": [
-    "banner",
-    "product-grid",
     "spinning_cd_gRy8Aw",
-    "featured_collection_XzLyge"
+    "featured_collection_XzLyge",
+    "banner",
+    "product-grid"
   ]
 }
