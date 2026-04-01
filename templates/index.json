@@ -208,7 +208,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "all-products",
+        "collection": "500php-tees-xxl-xxl",
         "products_to_show": 20,
         "title": "LAST REMAINING STOCKS - SIZE XXL & XXXL ONLY",
         "heading_size": "h1",
