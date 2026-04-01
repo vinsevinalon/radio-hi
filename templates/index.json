@@ -208,9 +208,9 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "500php-tees-xxl-xxl",
+        "collection": "s-s-2026",
         "products_to_show": 20,
-        "title": "LAST REMAINING STOCKS - SIZE XXL & XXXL ONLY",
+        "title": "S/S 2026",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
