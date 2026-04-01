@@ -128,19 +128,19 @@
         "overlay_default": "dark"
       }
     },
-    "featured_collection_6E9fhR": {
+    "featured_collection_zkKiNQ": {
       "type": "featured-collection",
       "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "outer-wear",
-        "products_to_show": 4,
-        "title": "OUTWEAR",
+        "collection": "s-s-2026",
+        "products_to_show": 20,
+        "title": "S/S 2026",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
@@ -196,7 +196,6 @@
         "media_iz3i7C",
         "media_9pikYR"
       ],
-      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -204,18 +203,19 @@
         "overlay_default": "dark"
       }
     },
-    "featured_collection_zkKiNQ": {
+    "featured_collection_6E9fhR": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "s-s-2026",
-        "products_to_show": 20,
-        "title": "S/S 2026",
+        "collection": "outer-wear",
+        "products_to_show": 4,
+        "title": "OUTWEAR",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
@@ -271,7 +271,6 @@
         "media_RHr8CJ",
         "media_TKBVGC"
       ],
-      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -347,7 +346,6 @@
         "media_HDnDYX",
         "media_K3atN4"
       ],
-      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -437,9 +435,9 @@
     "spinning-cd",
     "irregular_media_grid_YNr6aE",
     "irregular_media_grid_hQtKUQ",
-    "featured_collection_6E9fhR",
-    "irregular_media_grid_TgKXfr",
     "featured_collection_zkKiNQ",
+    "irregular_media_grid_TgKXfr",
+    "featured_collection_6E9fhR",
     "irregular_media_grid_Yfw89M",
     "featured_collection_NNnA3q",
     "irregular_media_grid_CP8CyM",
