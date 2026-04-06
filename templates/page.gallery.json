@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
@@ -283,6 +284,15 @@
     "collapsible_content_NzVzmW": {
       "type": "collapsible-content",
       "blocks": {
+        "collapsible_row_QgWG6L": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
         "collapsible_row_naL8hF": {
           "type": "collapsible_row",
           "settings": {
@@ -321,11 +331,13 @@
         }
       },
       "block_order": [
+        "collapsible_row_QgWG6L",
         "collapsible_row_naL8hF",
         "collapsible_row_YqACHG",
         "collapsible_row_mAnMzL",
         "collapsible_row_XChmLy"
       ],
+      "disabled": true,
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
         "caption": "",
