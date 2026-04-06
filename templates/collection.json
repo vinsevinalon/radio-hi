@@ -21,7 +21,6 @@
     },
     "featured_collection_XzLyge": {
       "type": "featured-collection",
-      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "s-s-2026",
@@ -81,6 +80,7 @@
     },
     "featured_collection_bVTFwp": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "500php-tees-xxl-xxl",
