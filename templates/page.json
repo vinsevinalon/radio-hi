@@ -46,6 +46,7 @@
         "text_CbExAE",
         "buttons_gGipjb"
       ],
+      "disabled": true,
       "name": "t:sections.image-banner.presets.name",
       "settings": {
         "image": "shopify://shop_images/505159750_18049557905605353_4244519878625961764_n.jpg",
@@ -88,6 +89,7 @@
     },
     "featured_collection_UD6gcE": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "s-s-2026",
