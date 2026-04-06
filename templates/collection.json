@@ -76,7 +76,7 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "archive-sale",
-        "products_to_show": 25,
+        "products_to_show": 23,
         "title": "ARCHIVE",
         "heading_size": "hxxl",
         "description": "",
