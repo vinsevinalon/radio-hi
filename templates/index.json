@@ -211,7 +211,7 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "SHOP NOW",
-            "button_link_1": "",
+            "button_link_1": "shopify://collections/s-s-2026",
             "button_style_secondary_1": false,
             "button_label_2": "",
             "button_link_2": "",
