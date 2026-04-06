@@ -196,11 +196,63 @@
         "media_iz3i7C",
         "media_9pikYR"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
         "heading": "Explore the grid",
         "overlay_default": "dark"
+      }
+    },
+    "image_banner_MmpKx3": {
+      "type": "image-banner",
+      "blocks": {
+        "buttons_ga6XMm": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "SHOP NOW",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        },
+        "heading_EHX7gU": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "Image banner",
+            "heading_size": "h1"
+          }
+        },
+        "text_BC6cf9": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "Give customers details about the banner image(s) or content on the template.",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "buttons_ga6XMm",
+        "heading_EHX7gU",
+        "text_BC6cf9"
+      ],
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/3b67d497-e51d-4b7f-9cc6-60a699eedfb9_73b0d5ba-28c9-46db-ba25-047b6cffd34a.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "zoom-in",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
       }
     },
     "featured_collection_6E9fhR": {
@@ -271,6 +323,7 @@
         "media_RHr8CJ",
         "media_TKBVGC"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -346,6 +399,7 @@
         "media_HDnDYX",
         "media_K3atN4"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
@@ -437,6 +491,7 @@
     "irregular_media_grid_hQtKUQ",
     "featured_collection_zkKiNQ",
     "irregular_media_grid_TgKXfr",
+    "image_banner_MmpKx3",
     "featured_collection_6E9fhR",
     "irregular_media_grid_Yfw89M",
     "featured_collection_NNnA3q",

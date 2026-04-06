@@ -162,6 +162,7 @@
     },
     "video_DHkWWk": {
       "type": "video",
+      "disabled": true,
       "name": "t:sections.video.presets.name",
       "settings": {
         "heading": "",
