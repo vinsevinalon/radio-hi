@@ -85,8 +85,8 @@
       "settings": {
         "collection": "500php-tees-xxl-xxl",
         "products_to_show": 25,
-        "title": "Featured collection",
-        "heading_size": "h1",
+        "title": "SALE ITEMS",
+        "heading_size": "hxxl",
         "description": "",
         "show_description": false,
         "description_style": "body",
