@@ -53,26 +53,10 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
-    },
-    "background_video_QLkcWp": {
-      "type": "background-video",
-      "name": "Background video",
-      "settings": {
-        "full_width": false,
-        "height_mobile": 160,
-        "height_desktop": 240,
-        "video": "shopify://files/videos/video (4).mp4",
-        "enable_video_looping": true,
-        "disable_video_on_mobile": true,
-        "overlay_color": "#000000",
-        "overlay_opacity": 60,
-        "color_scheme": "scheme-4"
-      }
     }
   },
   "order": [
     "announcement-bar",
-    "header",
-    "background_video_QLkcWp"
+    "header"
   ]
 }
