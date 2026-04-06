@@ -218,6 +218,7 @@
         "media_y9HgQQ",
         "media_GHqCjM"
       ],
+      "disabled": true,
       "name": "Irregular media grid",
       "settings": {
         "show_heading": false,
