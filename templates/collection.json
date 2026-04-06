@@ -23,7 +23,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "s-s-2026",
+        "collection": "archive-sale",
         "products_to_show": 25,
         "title": "LATEST COLLECTION",
         "heading_size": "hxxl",
