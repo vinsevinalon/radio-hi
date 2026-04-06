@@ -20,13 +20,6 @@
     "rich_text_ckEYcF": {
       "type": "rich-text",
       "blocks": {
-        "heading_dEjk4H": {
-          "type": "heading",
-          "settings": {
-            "heading": "TERMS & CONDITION",
-            "heading_size": "h1"
-          }
-        },
         "text_XgWMKL": {
           "type": "text",
           "settings": {
@@ -35,7 +28,6 @@
         }
       },
       "block_order": [
-        "heading_dEjk4H",
         "text_XgWMKL"
       ],
       "name": "t:sections.rich-text.presets.name",
